@@ -11,6 +11,22 @@
 	- leggere il TODO.md
 9. tenere aggiornato il TODO.md
 10. nomi commit in italiano
+11. commenti come descrizione delle funzioni con il sequente formato:
+	```
+	/*
+	\t commento
+	*/
+	```
+12. commenti utili alla compensione del codice indicati con 
+	```
+	// commento
+	```
+13. note o approfondimenti sul codice come:
+	```
+	/**
+	\t commento
+	**/
+	```
 
 ## Come usare il TODO.md
 
