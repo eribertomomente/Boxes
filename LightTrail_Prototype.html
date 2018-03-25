@@ -37,7 +37,7 @@
 				// set-up scena
 				cubes = createCubes(11, new THREE.Vector3(-2,2,0));
 
-				stalkers = createStalkers(cubes, 30);
+				stalkers = createMultipleStalkers(cubes, 30);
 
 				// statistiche frame
 				stats = new Stats();
@@ -49,6 +49,7 @@
 				camera.position.z = 5;
 
 			}
+
 
 			// crea un array di cubi gialli
 			function createCubes(index, cubesPos){
@@ -66,7 +67,10 @@
 				return cubes;
 			}
 
-			// muove cube sul perimetro del quadrato di lato 4 centrato nell'origine
+
+			/*
+				muove cube sul perimetro del quadrato di lato 4 centrato nell'origine
+			*/
 			var posX = -2.0;
 			var posY = 2.0;
 			var direction = 1;
@@ -93,6 +97,8 @@
 			}
 
 
+
+
 			/**
 				DEFINIZIONI:
 					- origin: obj indipendente che si muove
@@ -100,14 +106,21 @@
 					- follower: obj che assume le stesse posizioni di un obj origin con un ritardo di n posizioni
 			**/
 
-			// TODO
-			function createStalkers(origins, delay){
+
+			/*
+		 		crea un array di stalkers
+		 		ogni stalker è relativo a un elemento di origins, array di oggetti
+		 		delay rappresenta il ritardo con cui ogni follower seguirà il suo origin. Il ritardo è espresso
+		 		come numero di posizione passate memorizzate
+		 	*/
+			function createMultipleStalkers(origins, delay){
 				var stalkers=[];
 				for (var i = 0; i < origins.length-1; i++){
 					stalkers[i] = createStalker(origins[i], delay);
 				}
 				return stalkers;
 			}
+
 
 			/*
 				crea un array stalker di origin
@@ -122,6 +135,7 @@
 				return stalker;
 			}
 
+
 			/*
 				inserisce in coda all'array stalker la posizione attuale di origin
 				rimuove la posizione in tesa
@@ -131,13 +145,19 @@
 				stalker.push(origin.position.clone());
 			}
 
-			// TODO
-			function moveFollowers(origins, stalkers){
+
+			/*
+				muove tutti i follower in origins
+			*/
+			function moveMultipleFollowers(origins, stalkers){
 				for (var i=0; i<origins.length-1; i++){
 					moveFollower(origins[i], stalkers[i], origins[i+1]);
 				}
 			}
 
+			/*
+				esegue un passo del follower
+			*/
 			function moveFollower(origin, stalker, follower){
 				var x = stalker[0].x;
 				var y = stalker[0].y;
@@ -151,7 +171,7 @@
 				requestAnimationFrame(Render);
 				stats.update();
 				moveCube(cubes[0]);
-				moveFollowers(cubes, stalkers);
+				moveMultipleFollowers(cubes, stalkers);
 				renderer.render(scene, camera);
 			}
 
