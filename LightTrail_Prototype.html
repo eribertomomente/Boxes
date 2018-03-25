@@ -1,0 +1,152 @@
+<html>
+	<head>
+		<title>Light Trail</title>
+		<style>
+
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+	</head>
+	<body>
+
+		<script>
+
+			var scene, renderer, camera, stats, main, first, second, stalker;
+
+			function Start() {
+
+				// set-up base
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				// set-up scena
+				first = createCube();
+				scene.add( first );
+				first.position.set(-1,-1,0);
+
+				stalker = createStalker(first);
+
+				second = createCube();
+				scene.add( second );
+
+
+
+				// statistiche frame
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.body.appendChild( stats.domElement );
+
+				// set-up camera
+				camera.position.z = 5;
+
+			}
+
+			// crea un nuovo cubo giallo
+			function createCube(){
+				var geometry = new THREE.BoxGeometry(1,1,1);
+				var material = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
+				cube = new THREE.Mesh( geometry, material );
+				return cube;
+			}
+
+			// muove cube sul perimetro del quadrato di lato 4 centrato nell'origine
+			var posX = -1.0;
+			var posY = -1.0;
+			var direction = 0;
+			function moveCube(cube){
+				var speed = 0.05;
+				if (direction==0){
+					if (posX <= 2){
+						posX += speed;
+					} else if (posY <= 2){
+						posY += speed;
+					} else {
+						direction = 1;
+					}
+				} else {
+					if (posX >= -2){
+						posX -= speed;
+					} else if (posY >= -2){
+						posY -= speed;
+					} else {
+						direction = 0;
+					}
+				}
+				// TODO guardare sul devTool questa parte con watch su stalker
+				// cube.position.set(posX, posY, 0);
+				cube.position.x = posX;
+				cube.position.y = posY;
+				cube.position.z = 0;
+			}
+
+
+			/**
+				DEFINIZIONI:
+					- origin: obj indipendente che si muove
+					- stalker: array in cui vengono tracciate le ultime n posizioni di un obj origin
+					- follower: obj che assume le stesse posizioni di un obj origin con un ritardo di n posizioni
+			**/
+
+
+			/*
+				crea un array stalker di origin
+				lo stalker appena creato avrà tutte le sue posizioni uguali pari alla posizione iniziale di origin
+				questo permette il ritardo	voluto nel tracciare le posizioni di origin
+			*/
+			function createStalker(origin){
+				var stalker = [];
+				var length = 10;
+				for(var i = 0; i < length; i++) {
+				    stalker.push(origin.position);
+				}
+				return stalker;	
+			}
+
+			/*
+				inserisce in coda all'array stalker la posizione attuale di origin
+				rimuove la posizione in tesa
+			*/
+			function updateStalker(origin, stalker){
+				stalker.shift();
+				stalker.push(origin.position);
+			}
+
+			function moveFollower(origin, stalker, follower){
+				var x = stalker[0].x;
+				var y = stalker[0].y;
+				var z = stalker[0].z;
+				follower.position.set(x,y,z);
+				updateStalker(origin, stalker);
+			}
+
+			function Render() {
+
+				requestAnimationFrame(Render);
+				stats.update();
+				moveCube(first);
+				// moveFollower(first, stalker, second);
+				renderer.render(scene, camera);
+			}
+
+			Start();
+			Render();
+
+		</script>
+	</body>
+</html>

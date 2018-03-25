@@ -1,0 +1,158 @@
+<html>
+	<head>
+		<title>Flames for 1st Project 2018</title>
+		<style>
+
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+		<script src="lib/Coordinates.js"></script>
+		<script src="lib/OrbitControls.js"></script>
+	</head>
+	<body>
+
+		<script>
+
+		var scene, camera, renderer, controls, stats;
+		var flames;
+
+		function Start() {
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			renderer = new THREE.WebGLRenderer( {antialias: true} );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.setClearColor( 0xf0f0f0 );
+			document.body.appendChild( renderer.domElement );
+
+			camera.position.set(3,4,15);
+			camera.lookAt( new THREE.Vector3(0,0,0));
+
+			stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.top = '0px';
+			document.body.appendChild( stats.domElement );
+
+			// uncomment if you need to draw coordinate axes when building the scene
+			//Coordinates.drawAllAxes();
+
+			controls = new THREE.OrbitControls( camera );
+			controls.addEventListener( 'change', Render );
+
+			flames = new THREE.Object3D();
+
+			/*
+			var geometry = new THREE.BoxGeometry(11,11,11);
+			var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
+			var cube = new THREE.Mesh(geometry, material);
+
+			cube.position.y = 5.5;
+			scene.add(cube);
+			*/
+
+
+		}
+
+
+		// creas i nuovi cubi
+		function Flames(){
+
+			// creo n cubi ad ogni update
+			for(var i=0; i<4; i++){
+				var geometry = new THREE.BoxGeometry(1,1,1);
+
+				var material = [];
+				/*
+					colori fuoco:
+						0xe61439 - rosso
+						0xec6627 - arancio
+						0xf3dc77 - giallo chiaro
+				*/
+				material[0] = new THREE.MeshBasicMaterial( { color: 0xe61439 } );
+				material[1] = new THREE.MeshBasicMaterial( { color: 0xec6627 } );
+				material[2] = new THREE.MeshBasicMaterial( { color: 0xf3dc77 } );
+
+				var cube = new THREE.Mesh( geometry, material[Math.trunc(Math.random() * (material.length - i))] );
+
+
+				var x = Math.random()*10 - 5;
+				var z = Math.random()*10 - 5;
+
+				// creo il cubo con posizioni interne ad una circonferenza di raggio 5
+				while(x*x + z*z > 25){
+					x = Math.random()*10 - 5;
+					z = Math.random()*10 - 5;
+				}
+
+				cube.position.set( x, 0, z);
+
+				flames.add(cube);
+			}
+			scene.add(flames);
+
+		}
+
+		// sposto tutti i cubi, e se superano il limite li elimino
+		function FlamesAnim(){
+
+			for(var i=0; i<flames.children.length; i++){
+
+				var posy = flames.children[i].position.y;
+				var posx = flames.children[i].position.x;
+				var posz = flames.children[i].position.z;
+
+				posy -= 0.2;
+
+				// elimino i cubi che superano un piano immaginario (una piramide a base quadrata rovesciata senza base)
+				if(posy <= flames.position.y + 2*(Math.abs(posx) + Math.abs(posz)) - 20){
+
+					// soluzione al memory leak: elimina le geometrie ed i materiali vecchi
+					flames.children[i].geometry.dispose();
+					flames.children[i].material.dispose();
+					scene.remove(flames.children[i]);				// non so se questa funzione funzioni realmente
+
+					//elimino il figlio dall'oggetto flames
+					flames.children.splice(i,1);
+
+				}else{
+					flames.children[i].position.y = posy;
+				}
+
+			}
+
+		}
+
+		function Update() {
+			requestAnimationFrame( Update );
+			controls.update();
+			stats.update();
+
+			Flames();
+			FlamesAnim();
+
+			Render();
+		}
+
+		function Render() {
+
+			renderer.render(scene, camera);
+		}
+
+		Start();
+		Update();
+
+		</script>
+	</body>
+</html>
