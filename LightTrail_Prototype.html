@@ -23,7 +23,7 @@
 
 		<script>
 
-			var scene, renderer, camera, stats, main, first, second, stalker;
+			var scene, renderer, camera, stats;
 
 			function Start() {
 
@@ -35,16 +35,9 @@
 				document.body.appendChild( renderer.domElement );
 
 				// set-up scena
-				first = createCube();
-				scene.add( first );
-				first.position.set(-1,-1,0);
+				cubes = createCubes(11, new THREE.Vector3(-2,2,0));
 
-				stalker = createStalker(first);
-
-				second = createCube();
-				scene.add( second );
-
-
+				stalkers = createStalkers(cubes, 30);
 
 				// statistiche frame
 				stats = new Stats();
@@ -57,18 +50,26 @@
 
 			}
 
-			// crea un nuovo cubo giallo
-			function createCube(){
+			// crea un array di cubi gialli
+			function createCubes(index, cubesPos){
 				var geometry = new THREE.BoxGeometry(1,1,1);
 				var material = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
-				cube = new THREE.Mesh( geometry, material );
-				return cube;
+				var cubes=[];
+				for ( i=0; i<index; i++ ){
+					cubes[i] = new THREE.Mesh( geometry, material );
+					scene.add(cubes[i]);
+					var x = cubesPos.x;
+					var y = cubesPos.y;
+					var z = cubesPos.z;
+					cubes[i].position.set(x,y,z);
+				}
+				return cubes;
 			}
 
 			// muove cube sul perimetro del quadrato di lato 4 centrato nell'origine
-			var posX = -1.0;
-			var posY = -1.0;
-			var direction = 0;
+			var posX = -2.0;
+			var posY = 2.0;
+			var direction = 1;
 			function moveCube(cube){
 				var speed = 0.05;
 				if (direction==0){
@@ -88,11 +89,7 @@
 						direction = 0;
 					}
 				}
-				// TODO guardare sul devTool questa parte con watch su stalker
-				// cube.position.set(posX, posY, 0);
-				cube.position.x = posX;
-				cube.position.y = posY;
-				cube.position.z = 0;
+				cube.position.set(posX, posY, 0);
 			}
 
 
@@ -103,16 +100,23 @@
 					- follower: obj che assume le stesse posizioni di un obj origin con un ritardo di n posizioni
 			**/
 
+			// TODO
+			function createStalkers(origins, delay){
+				var stalkers=[];
+				for (var i = 0; i < origins.length-1; i++){
+					stalkers[i] = createStalker(origins[i], delay);
+				}
+				return stalkers;
+			}
 
 			/*
 				crea un array stalker di origin
 				lo stalker appena creato avrà tutte le sue posizioni uguali pari alla posizione iniziale di origin
 				questo permette il ritardo	voluto nel tracciare le posizioni di origin
 			*/
-			function createStalker(origin){
+			function createStalker(origin, delay){
 				var stalker = [];
-				var length = 10;
-				for(var i = 0; i < length; i++) {
+				for(var i = 0; i < delay; i++) {
 				    stalker.push(origin.position.clone());
 				}
 				return stalker;
@@ -127,6 +131,13 @@
 				stalker.push(origin.position.clone());
 			}
 
+			// TODO
+			function moveFollowers(origins, stalkers){
+				for (var i=0; i<origins.length-1; i++){
+					moveFollower(origins[i], stalkers[i], origins[i+1]);
+				}
+			}
+
 			function moveFollower(origin, stalker, follower){
 				var x = stalker[0].x;
 				var y = stalker[0].y;
@@ -139,8 +150,8 @@
 
 				requestAnimationFrame(Render);
 				stats.update();
-				moveCube(first);
-				moveFollower(first, stalker, second);
+				moveCube(cubes[0]);
+				moveFollowers(cubes, stalkers);
 				renderer.render(scene, camera);
 			}
 
