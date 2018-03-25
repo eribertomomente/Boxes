@@ -5,7 +5,7 @@
 4. i file non utili direttamente al progetto ma che implementano solo alcune idee nominarli come [nome]_prototype.html
 5. effettuare commit locali ogni punto stazionario raggiunto
 6. push ogni volta che si smette di sviluppare
-7. Si ai commit di parti non funzionanti ma nominarli [nomeCommit]_ToFix
+7. Si ai commit di parti non funzionanti ma nominarli "[nomeCommit] TOFIX"
 8. Prima di iniziare ogni sessione di sviluppo:
 	- fare un pull del repo per essere sincronizzati
 	- leggere il TODO.md
