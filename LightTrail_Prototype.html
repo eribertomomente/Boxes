@@ -113,9 +113,9 @@
 				var stalker = [];
 				var length = 10;
 				for(var i = 0; i < length; i++) {
-				    stalker.push(origin.position);
+				    stalker.push(origin.position.clone());
 				}
-				return stalker;	
+				return stalker;
 			}
 
 			/*
@@ -124,7 +124,7 @@
 			*/
 			function updateStalker(origin, stalker){
 				stalker.shift();
-				stalker.push(origin.position);
+				stalker.push(origin.position.clone());
 			}
 
 			function moveFollower(origin, stalker, follower){
@@ -140,7 +140,7 @@
 				requestAnimationFrame(Render);
 				stats.update();
 				moveCube(first);
-				// moveFollower(first, stalker, second);
+				moveFollower(first, stalker, second);
 				renderer.render(scene, camera);
 			}
 
