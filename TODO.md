@@ -1,9 +1,10 @@
-##TODO
+## TODO
 - LightTrail_Prototype.html
-##DONE
+
+## DONE
 - Flame_Prototype
 
-##IDEAS
+## IDEAS
 - razzo che parte
 - fuoco d'artificio che scoppia
 - fuochi d'artificio multipli

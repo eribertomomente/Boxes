@@ -12,7 +12,8 @@
 9. tenere aggiornato il TODO.md
 10. nomi commit in italiano
 
-##Come usare il TODO.md
+## Come usare il TODO.md
+
 il TODO.md è composto da 3 sezioni:
 - TODO: features da implementare
 - DONE: features che erano in TODO ma che sono state implementate
