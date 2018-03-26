@@ -1,6 +1,5 @@
 ## TODO
 1. Fixare la funzione isEatingHimself
-2. aggiungere in snake.js o in snakeGame.html funzione x acquisire direzione spostamenti da tastiera
 
 ## DONE
 - Flame_Prototype
