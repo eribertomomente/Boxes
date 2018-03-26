@@ -1,9 +1,10 @@
 ## TODO
-1. creare un file apposito x la definizione e l'implementazione dell'oggetto snake (ex lightTrail)
-2. creare funzioni x acquisizione input da tastiera (frecce)
+1. Fixare la funzione isEatingHimself
+2. aggiungere in snake.js o in snakeGame.html funzione x acquisire direzione spostamenti da tastiera
 
 ## DONE
 - Flame_Prototype
+- Snake.js
 
 ## IDEAS
 - creare terreni dinamici

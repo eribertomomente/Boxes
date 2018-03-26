@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title>Light Trail</title>
+		<style>
+
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+		<script src="Snake.js"></script>
+	</head>
+	<body>
+
+		<script>
+
+			var scene, renderer, camera, stats;
+
+			function Start() {
+
+				// set-up base
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				// set-up scena
+				snake = new Snake(20);
+
+				// statistiche frame
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.body.appendChild( stats.domElement );
+
+				// set-up camera
+				camera.position.z = 5;
+
+			}
+
+
+			/*
+				muove cube sul perimetro del quadrato di lato 4 centrato nell'origine
+			*/
+			var posX = 0.0;
+			var posY = 0.0;
+			var direction = 1;
+			function moveCube(cube){
+				var speed = 0.05;
+				if (direction==0){
+					if (posX <= 2){
+						posX += speed;
+					} else if (posY <= 2){
+						posY += speed;
+					} else {
+						direction = 1;
+					}
+				} else {
+					if (posX >= -2){
+						posX -= speed;
+					} else if (posY >= -2){
+						posY -= speed;
+					} else {
+						direction = 0;
+					}
+				}
+				cube.position.set(posX, posY, 0);
+			}
+
+			function Render() {
+
+				requestAnimationFrame(Render);
+				stats.update();
+				moveCube(snake.body[0]);
+				moveBody(snake);
+				// non funziona TODO
+				if (isEatingHimself(snake)){
+					console.info("cannibale");
+				} else {
+					console.info("normale");
+				}
+				renderer.render(scene, camera);
+			}
+
+			Start();
+			Render();
+
+		</script>
+	</body>
+</html>
