@@ -55,25 +55,41 @@
 			*/
 			var posX = 0.0;
 			var posY = 0.0;
-			var direction = 1;
+			var direction = 0;
 			function moveCube(cube){
+				/**
+					direzione può valere 4 valori:
+						0 - verso dx
+						1 - verso l'alto
+						2 - verso sx
+						3 - verso il basso
+				**/
 				var speed = 0.05;
-				if (direction==0){
-					if (posX <= 2){
+				switch(direction){
+					case 0:
 						posX += speed;
-					} else if (posY <= 2){
+						if(posX > 2){
+							direction = 1;
+						}
+					break;
+					case 1:
 						posY += speed;
-					} else {
-						direction = 1;
-					}
-				} else {
-					if (posX >= -2){
+						if (posY > 2){
+							direction = 2;
+						}
+					break;
+					case 2:
 						posX -= speed;
-					} else if (posY >= -2){
+						if(posX < -2){
+							direction = 3;
+						}
+					break;
+					case 3:
 						posY -= speed;
-					} else {
-						direction = 0;
-					}
+						if (posY < -2){
+							direction = 0;
+						}
+					break;
 				}
 				cube.position.set(posX, posY, 0);
 			}
