@@ -1,5 +1,5 @@
 ## TODO
-1. Fixare la funzione isEatingHimself
+1. Migliorare la funzione isEatingHimself (brutto if)
 
 ## DONE
 - Flame_Prototype

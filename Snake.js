@@ -11,6 +11,7 @@ function Snake (bodyLength=3){
 	this.stalkers = createMultipleStalkers(body);
 }
 
+
 /*
 	muove il corpo dello snake seguendo gli spostamenti della testa
 */
@@ -20,20 +21,37 @@ function moveBody(snake){
 	}
 }
 
+
 /*
-	TODO non funziona
 	true se lo snake è passato sopra il suo corpo
 	false altrimenti
 */
-function isEatingHimself(snake){
-	var head = snake.body[0].position;
+function isEatingHimself(snake, direction){
+
+	/**
+		per vedere se si sta mangiando, controllo se almeno uno dei due spigoli frontali
+		della testa sono all'interno di uno dei cubi che compongono il corpo dello snake
+	**/
+	var width = snake.body[0].geometry.parameters.width / 2;
+
+	// vertice destro (pensando il cubo rivolto verso l'alto)
+	var v1x = snake.body[0].position.x + ((direction < 2) ? + width : - width);
+	var v1y = snake.body[0].position.y + ((direction%3 == 0) ? - width : + width);
+	//vertice sinistro (pensando il cubo rivolto verso l'alto)
+	var v2x = snake.body[0].position.x + ((direction%3 == 0) ? + width : - width);
+	var v2y = snake.body[0].position.y + ((direction < 2) ? + width : - width);
+
 	for (var i = 1; i < snake.body.length; i++){
-		if (head == snake.body[i].position){
+		var body = snake.body[i];
+		var cond1 = (v1x <= body.position.x + body.geometry.parameters.width / 2)&&(v1x >= body.position.x - body.geometry.parameters.width / 2)&&(v1y <= body.position.y + body.geometry.parameters.width / 2)&&(v1y >= body.position.y - body.geometry.parameters.width / 2);
+		var cond2 = (v2x <= body.position.x + body.geometry.parameters.width / 2)&&(v2x >= body.position.x - body.geometry.parameters.width / 2)&&(v2y <= body.position.y + body.geometry.parameters.width / 2)&&(v2y >= body.position.y - body.geometry.parameters.width / 2);
+		if (cond1 || cond2){
 			return true;
 		}
 	}
 	return false;
 }
+
 
 /*
 	PRIVATE

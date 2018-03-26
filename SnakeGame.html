@@ -100,6 +100,7 @@
 				cube.position.set(posX, posY, 0);
 			}
 
+
 			/*
 				gestisce la pressione di un qualsiasi tasto
 			*/
@@ -134,8 +135,7 @@
 				stats.update();
 				moveCube(snake.body[0]);
 				moveBody(snake);
-				// non funziona TODO
-				if (isEatingHimself(snake)){
+				if (isEatingHimself(snake, direction)){
 					console.info("cannibale");
 				} else {
 					console.info("normale");
