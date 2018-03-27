@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Light Trail</title>
+		<title>Snake Game</title>
 		<style>
 
 		body {
@@ -18,7 +18,9 @@
 	</style>
 		<script src="lib/three.min.js"></script>
 		<script src="lib/stats.min.js"></script>
-		<script src="Snake.js"></script>
+		<script src="obj/SnakeGame.js"></script>
+		<script src="obj/Snake.js"></script>
+		<script src="obj/Field.js"></script>
 	</head>
 	<body>
 
@@ -36,7 +38,7 @@
 				document.body.appendChild( renderer.domElement );
 
 				// set-up scena
-				snake = new Snake(20);
+				game = new SnakeGame(3,5);
 
 				// statistiche frame
 				stats = new Stats();
@@ -133,13 +135,14 @@
 
 				requestAnimationFrame(Render);
 				stats.update();
-				moveCube(snake.body[0]);
-				moveBody(snake);
-				if (isEatingHimself(snake, direction)){
-					console.info("cannibale");
-				} else {
-					console.info("normale");
-				}
+				moveCube(game.snake.body[0]);
+				moveBody(game.snake);
+				rotateTarget(game.field.target);
+				// if (isEatingHimself(game.snake, direction)){
+				// 	console.info("cannibale");
+				// } else {
+				// 	console.info("normale");
+				// }
 				renderer.render(scene, camera);
 			}
 

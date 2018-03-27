@@ -1,9 +1,15 @@
 ## TODO
 1. Migliorare la funzione isEatingHimself (brutto if)
+2. Gestire movimento toroidale agli estremi del campo
+3. implementare funzione x riconoscere quando lo snake mangia il target e generarne uno nuovo
 
 ## DONE
+- Gestire grandezza campo da gioco e comparsa ciliegina
+- creata cartella per contenere gli oggetti
+	- Field.js
+	- Snake.js
+	- SnakeGame.js
 - Flame_Prototype
-- Snake.js
 
 ## IDEAS
 - creare terreni dinamici
