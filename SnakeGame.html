@@ -75,27 +75,31 @@
 				var speed = 0.05;
 				switch(direction){
 					case 0:
-						posX += speed;
 						if(posX > 2){
 							direction = 1;
+						}else{
+							posX += speed;
 						}
 					break;
 					case 1:
-						posY += speed;
 						if (posY > 2){
 							direction = 2;
+						}else{
+							posY += speed;
 						}
 					break;
 					case 2:
-						posX -= speed;
 						if(posX < -2){
 							direction = 3;
+						}else{
+							posX -= speed;
 						}
 					break;
 					case 3:
-						posY -= speed;
 						if (posY < -2){
 							direction = 0;
+						}else{
+							posY -= speed;
 						}
 					break;
 				}
