@@ -136,9 +136,9 @@
 				requestAnimationFrame(Render);
 				stats.update();
 				moveCube(game.snake.body[0]);
-				moveBody(game.snake);
-				rotateTarget(game.field.target);
-				// if (isEatingHimself(game.snake, direction)){
+				game.snake.moveBody();
+				game.field.rotateTarget();
+				// if (game.snake.isEatingHimself( direction)){
 				// 	console.info("cannibale");
 				// } else {
 				// 	console.info("normale");

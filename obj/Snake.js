@@ -6,18 +6,17 @@
 **/
 
 function Snake (bodyLength=3){
-	var body = createBody(bodyLength);
-	this.body = body;
-	this.stalkers = createMultipleStalkers(body);
+	this.body = this.createBody(bodyLength);
+	this.stalkers = this.createMultipleStalkers();
 }
 
 
 /*
 	muove il corpo dello snake seguendo gli spostamenti della testa
 */
-function moveBody(snake){
-	for (var i=0; i<snake.body.length-1; i++){
-		moveFollower(snake.body[i], snake.stalkers[i], snake.body[i+1]);
+Snake.prototype.moveBody = function (){
+	for (var i=0; i<this.body.length-1; i++){
+		this.moveFollower(i);
 	}
 }
 
@@ -26,23 +25,23 @@ function moveBody(snake){
 	true se lo snake è passato sopra il suo corpo
 	false altrimenti
 */
-function isEatingHimself(snake, direction){
+Snake.prototype.isEatingHimself = function(direction){
 
 	/**
 		per vedere se si sta mangiando, controllo se almeno uno dei due spigoli frontali
 		della testa sono all'interno di uno dei cubi che compongono il corpo dello snake
 	**/
-	var width = snake.body[0].geometry.parameters.width / 2;
+	var width = this.body[0].geometry.parameters.width / 2;
 
 	// vertice destro (pensando il cubo rivolto verso l'alto)
-	var v1x = snake.body[0].position.x + ((direction < 2) ? + width : - width);
-	var v1y = snake.body[0].position.y + ((direction%3 == 0) ? - width : + width);
+	var v1x = this.body[0].position.x + ((direction < 2) ? + width : - width);
+	var v1y = this.body[0].position.y + ((direction%3 == 0) ? - width : + width);
 	//vertice sinistro (pensando il cubo rivolto verso l'alto)
-	var v2x = snake.body[0].position.x + ((direction%3 == 0) ? + width : - width);
-	var v2y = snake.body[0].position.y + ((direction < 2) ? + width : - width);
+	var v2x = this.body[0].position.x + ((direction%3 == 0) ? + width : - width);
+	var v2y = this.body[0].position.y + ((direction < 2) ? + width : - width);
 
-	for (var i = 1; i < snake.body.length; i++){
-		var body = snake.body[i];
+	for (var i = 1; i < this.body.length; i++){
+		var body = this.body[i];
 		var cond1 = (v1x <= body.position.x + body.geometry.parameters.width / 2)&&(v1x >= body.position.x - body.geometry.parameters.width / 2)&&(v1y <= body.position.y + body.geometry.parameters.width / 2)&&(v1y >= body.position.y - body.geometry.parameters.width / 2);
 		var cond2 = (v2x <= body.position.x + body.geometry.parameters.width / 2)&&(v2x >= body.position.x - body.geometry.parameters.width / 2)&&(v2y <= body.position.y + body.geometry.parameters.width / 2)&&(v2y >= body.position.y - body.geometry.parameters.width / 2);
 		if (cond1 || cond2){
@@ -57,7 +56,7 @@ function isEatingHimself(snake, direction){
 	PRIVATE
 	crea il corpo di uno snake
 */
-function createBody(bodyLength){
+Snake.prototype.createBody = function(bodyLength){
 	var geometry = new THREE.BoxGeometry(1,1,1);
 	var material = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
 	var cubes=[];
@@ -75,10 +74,10 @@ function createBody(bodyLength){
 	crea un array di stalkers
 	ogni stalker è relativo a un elemento di body
 */
-function createMultipleStalkers(body){
+Snake.prototype.createMultipleStalkers = function(){
 	var stalkers=[];
-	for (var i = 0; i < body.length-1; i++){
-		stalkers[i] = createStalker(body[i]);
+	for (var i = 0; i < this.body.length-1; i++){
+		stalkers[i] = this.createStalker(this.body[i]);
 	}
 	return stalkers;
 }
@@ -90,7 +89,7 @@ function createMultipleStalkers(body){
 	lo stalker appena creato avrà tutte le sue posizioni uguali pari alla posizione iniziale di origin
 	questo permette il ritardo	voluto nel tracciare le posizioni di origin
 */
-function createStalker(origin){
+Snake.prototype.createStalker = function(origin){
 	var delay = 20;
 	var stalker = [];
 	for(var i = 0; i < delay; i++) {
@@ -102,22 +101,22 @@ function createStalker(origin){
 
 /*
 	PRIVATE
-	inserisce in coda all'array stalker la posizione attuale di origin
-	rimuove la posizione in tesa
+	inserisce in coda all'array stalker la posizione attuale del cubo alla posizione passata
+	rimuove la posizione in testa
 */
-function updateStalker(origin, stalker){
-	stalker.shift();
-	stalker.push(origin.position.clone());
+Snake.prototype.updateStalker = function(index){
+	this.stalkers[index].shift();
+	this.stalkers[index].push(this.body[index].position.clone());
 }
 
 /*
 	PRIVATE
-	esegue un passo del follower
+	esegue un passo del follower del cubo alla posizione index
 */
-function moveFollower(origin, stalker, follower){
-	var x = stalker[0].x;
-	var y = stalker[0].y;
-	var z = stalker[0].z;
-	follower.position.set(x,y,z);
-	updateStalker(origin, stalker);
+Snake.prototype.moveFollower = function(index){
+	var x = this.stalkers[index][0].x;
+	var y = this.stalkers[index][0].y;
+	var z = this.stalkers[index][0].z;
+	this.body[index+1].position.set(x,y,z);
+	this.updateStalker(index);
 }

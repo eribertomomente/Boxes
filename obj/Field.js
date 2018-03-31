@@ -34,15 +34,16 @@ function Field(dimension){
 		}
 	}
 	this.base = field;
-	this.target = createTarget(dimension);
+	this.dimension = dimension;
+	this.target = this.createTarget();
 }
 
 /*
 	restituisce un oggetto target
 */
-function createTarget(dimension){
-	var posX = Math.round((Math.random()*dimension) - dimension/2);
-	var posY = Math.round((Math.random()*dimension) - dimension/2);
+Field.prototype.createTarget = function() {
+	var posX = Math.round((Math.random()*this.dimension) - this.dimension/2);
+	var posY = Math.round((Math.random()*this.dimension) - this.dimension/2);
 
 	var geometry = new THREE.BoxGeometry(0.5,0.5,0.5);
 	var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
@@ -56,8 +57,8 @@ function createTarget(dimension){
 /*
 	anima il target
 */
-function rotateTarget(cube, speed=0.08) {
-	cube.rotation.x -= speed * 2;
-	cube.rotation.y -= speed;
-	cube.rotation.z -= speed * 3;
+Field.prototype.rotateTarget = function(speed=0.08) {
+	this.target.rotation.x -= speed * 2;
+	this.target.rotation.y -= speed;
+	this.target.rotation.z -= speed * 3;
 }
