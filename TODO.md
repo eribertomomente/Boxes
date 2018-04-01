@@ -1,11 +1,11 @@
 ## TODO
 1. Migliorare la funzione isEatingHimself (brutto if)
 2. Gestire movimento toroidale agli estremi del campo
-3. implementare funzione x riconoscere quando lo snake mangia il target e generarne uno nuovo
-4. Fixare variabile direction, deve essere un parametro dello snake e non esserne esterno
+3. Fixare variabile direction, deve essere un parametro dello snake e non esserne esterno
 
 ## DONE
 - Gestire grandezza campo da gioco e comparsa ciliegina
+- Implementare funzione x riconoscere quando lo snake mangia il target e generarne uno nuovo
 - creata cartella per contenere gli oggetti
 	- Field.js
 	- Snake.js

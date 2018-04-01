@@ -35,7 +35,7 @@ function Field(dimension){
 	}
 	this.base = field;
 	this.dimension = dimension;
-	this.target = this.createTarget();
+	this.createTarget();
 }
 
 /*
@@ -52,8 +52,8 @@ Field.prototype.createTarget = function() {
 	var cube = new THREE.Mesh( geometry, material );
 
 	cube.position.set(posX,posY,0);
+	this.target = cube;
 	scene.add(cube);
-	return cube;
 }
 
 /*
@@ -64,3 +64,14 @@ Field.prototype.createTarget = function() {
 // 	this.target.rotation.y -= speed;
 // 	this.target.rotation.z -= speed * 3;
 // }
+
+/*
+	elimina il target ed i suoi componenti dalla scena
+*/
+Field.prototype.removeTarget = function(){
+
+	scene.remove(this.target);
+	this.target.geometry.dispose();
+	this.target.material.dispose();
+
+}

@@ -143,6 +143,13 @@
 				moveCube(game.snake.body[0]);
 				game.snake.moveBody();
 				// game.field.rotateTarget();
+
+				if(game.isEatingTarget()){
+					game.field.removeTarget();
+					game.field.createTarget();
+					//game.snake = addBodyPart(game.snake);
+				}
+
 				// if (game.snake.isEatingHimself( direction)){
 				// 	console.info("cannibale");
 				// } else {

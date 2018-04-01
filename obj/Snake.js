@@ -40,7 +40,7 @@ Snake.prototype.isEatingHimself = function(direction){
 	var v2x = this.body[0].position.x + ((direction%3 == 0) ? + width : - width);
 	var v2y = this.body[0].position.y + ((direction < 2) ? + width : - width);
 
-	for (var i = 1; i < this.body.length; i++){
+	for (var i = 2; i < this.body.length; i++){
 		var body = this.body[i];
 		var cond1 = (v1x <= body.position.x + body.geometry.parameters.width / 2)&&(v1x >= body.position.x - body.geometry.parameters.width / 2)&&(v1y <= body.position.y + body.geometry.parameters.width / 2)&&(v1y >= body.position.y - body.geometry.parameters.width / 2);
 		var cond2 = (v2x <= body.position.x + body.geometry.parameters.width / 2)&&(v2x >= body.position.x - body.geometry.parameters.width / 2)&&(v2y <= body.position.y + body.geometry.parameters.width / 2)&&(v2y >= body.position.y - body.geometry.parameters.width / 2);
