@@ -45,9 +45,11 @@ Field.prototype.createTarget = function() {
 	var posX = Math.round((Math.random()*this.dimension) - this.dimension/2);
 	var posY = Math.round((Math.random()*this.dimension) - this.dimension/2);
 
-	var geometry = new THREE.BoxGeometry(0.5,0.5,0.5);
-	var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-	var cube = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() );
+	var geometry = new THREE.SphereGeometry(0.3,32,32);
+	var material = new THREE.MeshBasicMaterial();
+	material.map = new THREE.TextureLoader().load('images/apple_texture.jpg');
+
+	var cube = new THREE.Mesh( geometry, material );
 
 	cube.position.set(posX,posY,0);
 	scene.add(cube);
@@ -57,8 +59,8 @@ Field.prototype.createTarget = function() {
 /*
 	anima il target
 */
-Field.prototype.rotateTarget = function(speed=0.08) {
-	this.target.rotation.x -= speed * 2;
-	this.target.rotation.y -= speed;
-	this.target.rotation.z -= speed * 3;
-}
+// Field.prototype.rotateTarget = function(speed=0.08) {
+// 	this.target.rotation.x -= speed * 2;
+// 	this.target.rotation.y -= speed;
+// 	this.target.rotation.z -= speed * 3;
+// }

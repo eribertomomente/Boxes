@@ -35,6 +35,7 @@
 				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor( 0xa7f442 );
 				document.body.appendChild( renderer.domElement );
 
 				// set-up scena
@@ -141,7 +142,7 @@
 				stats.update();
 				moveCube(game.snake.body[0]);
 				game.snake.moveBody();
-				game.field.rotateTarget();
+				// game.field.rotateTarget();
 				// if (game.snake.isEatingHimself( direction)){
 				// 	console.info("cannibale");
 				// } else {

@@ -58,7 +58,8 @@ Snake.prototype.isEatingHimself = function(direction){
 */
 Snake.prototype.createBody = function(bodyLength){
 	var geometry = new THREE.BoxGeometry(1,1,1);
-	var material = new THREE.MeshBasicMaterial( { color: 0xffff00, wireframe:true } );
+	var material = new THREE.MeshBasicMaterial( );
+	material.map = new THREE.TextureLoader().load('images/boa_texture.jpg');
 	var cubes=[];
 	for ( i=0; i<bodyLength; i++ ){
 		cubes[i] = new THREE.Mesh( geometry, material );
