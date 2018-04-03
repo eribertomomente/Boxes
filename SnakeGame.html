@@ -21,12 +21,13 @@
 		<script src="obj/SnakeGame.js"></script>
 		<script src="obj/Snake.js"></script>
 		<script src="obj/Field.js"></script>
+		<script src="config.js"></script>
 	</head>
 	<body>
 
 		<script>
 
-			var scene, renderer, camera, stats;
+			var scene, renderer, camera, stats, originPosition;;
 
 			function Start() {
 
@@ -39,7 +40,7 @@
 				document.body.appendChild( renderer.domElement );
 
 				// set-up scena
-				game = new SnakeGame(3,5);
+				game = new SnakeGame();
 
 				// statistiche frame
 				stats = new Stats();
@@ -48,7 +49,7 @@
 				document.body.appendChild( stats.domElement );
 
 				// set-up camera
-				camera.position.z = 5;
+				camera.position.z = CAMERA_Z_POSITION;
 
 				// le quattro frecce
 				this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
@@ -66,6 +67,10 @@
 			var posY = 0.0;
 			var direction = 0;
 			function moveCube(cube){
+
+				var halfEdge1 = Math.floor(FIELD_DIMENSION/2);
+				var halfEdge2 = FIELD_DIMENSION- halfEdge1;
+
 				/**
 					direzione può valere 4 valori:
 						0 - verso dx
@@ -76,28 +81,28 @@
 				var speed = 0.05;
 				switch(direction){
 					case 0:
-						if(posX > 2){
+						if(posX > halfEdge2){
 							direction = 1;
 						}else{
 							posX += speed;
 						}
 					break;
 					case 1:
-						if (posY > 2){
+						if (posY > halfEdge2){
 							direction = 2;
 						}else{
 							posY += speed;
 						}
 					break;
 					case 2:
-						if(posX < -2){
+						if(posX < -halfEdge1){
 							direction = 3;
 						}else{
 							posX -= speed;
 						}
 					break;
 					case 3:
-						if (posY < -2){
+						if (posY < -halfEdge1){
 							direction = 0;
 						}else{
 							posY -= speed;
@@ -136,6 +141,7 @@
 				}
 			}
 
+			
 			function Render() {
 
 				requestAnimationFrame(Render);
@@ -147,7 +153,16 @@
 				if(game.isEatingTarget()){
 					game.field.removeTarget();
 					game.field.createTarget();
-					//game.snake = addBodyPart(game.snake);
+					// lo snake deve ingrandirsi ora
+					game.snake.isGettingBigger = true;
+					// e deve farlo alla posizione sotto
+					originPosition = game.snake.catchCurrentPosition();
+				}
+
+				if (game.snake.isGettingBigger){					
+					if (game.snake.isInOriginPosition(originPosition)){
+						game.snake.addBodyPart(originPosition);
+					}
 				}
 
 				// if (game.snake.isEatingHimself( direction)){

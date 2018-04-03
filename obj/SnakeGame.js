@@ -3,9 +3,9 @@
 **/
 
 // costruttore
-function SnakeGame(bodyLength, FieldDimension){
-	this.snake = new Snake(bodyLength);
-	this.field = new Field(FieldDimension);
+function SnakeGame(){
+	this.snake = new Snake();
+	this.field = new Field();
 }
 
 /*

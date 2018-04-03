@@ -14,7 +14,8 @@
 /*
 	costruttore
 */
-function Field(dimension){
+function Field(){
+	var dimension = FIELD_DIMENSION;
 	var geometry = new THREE.BoxGeometry(1,1,1);
 	var material = new THREE.MeshBasicMaterial( { color: 0x111111, wireframe:false } );
 

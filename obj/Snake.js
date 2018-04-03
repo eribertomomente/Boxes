@@ -5,9 +5,16 @@
 		- follower: obj che assume le stesse posizioni di un obj origin con un ritardo di n posizioni
 **/
 
-function Snake (bodyLength=3){
+var geometry = new THREE.BoxGeometry(1,1,1);
+var material = new THREE.MeshBasicMaterial( {wireframe:true});
+material.map = new THREE.TextureLoader().load('images/boa_texture.jpg');
+
+function Snake (){
+	var bodyLength = SNAKE_LENGTH;
 	this.body = this.createBody(bodyLength);
 	this.stalkers = this.createMultipleStalkers();
+	this.isGettingBigger = false;
+	this.bodyLength = bodyLength;
 }
 
 
@@ -51,15 +58,49 @@ Snake.prototype.isEatingHimself = function(direction){
 	return false;
 }
 
+/*
+	aggiunge un cubo in coda al corpo dello snake
+*/
+Snake.prototype.addBodyPart = function(pos){
+
+	// creazione del nuovo cubo
+	var newBodyPart = new THREE.Mesh( geometry, material);
+	scene.add(newBodyPart);
+	newBodyPart.position.set(pos.x, pos.y, pos.z);
+
+	this.body.push(newBodyPart);
+	this.stalkers.push(createStalker(this.body[this.bodyLength-3]));
+
+	this.bodyLength++;
+	this.isGettingBigger = false;
+}
+
+
+/*
+	restituisce la posizione in cui si trova la testa dello snake 
+	nell'istante in cui viene chiamata questa funzione
+*/
+Snake.prototype.catchCurrentPosition = function(){
+	return this.stalkers[0][DELAY-1];
+}
+
+/*
+	True quando la coda raggiunge la posizione di dov'è stata mangiata l'ultima mela
+*/
+Snake.prototype.isInOriginPosition = function(position){
+	var tailPos = this.body[this.bodyLength-1].position;
+	if (tailPos.x == position.x && tailPos.y == position.y){
+		return true;
+	}
+	return false;
+}
+
 
 /*
 	PRIVATE
 	crea il corpo di uno snake
 */
 Snake.prototype.createBody = function(bodyLength){
-	var geometry = new THREE.BoxGeometry(1,1,1);
-	var material = new THREE.MeshBasicMaterial( );
-	material.map = new THREE.TextureLoader().load('images/boa_texture.jpg');
 	var cubes=[];
 	for ( i=0; i<bodyLength; i++ ){
 		cubes[i] = new THREE.Mesh( geometry, material );
@@ -78,7 +119,7 @@ Snake.prototype.createBody = function(bodyLength){
 Snake.prototype.createMultipleStalkers = function(){
 	var stalkers=[];
 	for (var i = 0; i < this.body.length-1; i++){
-		stalkers[i] = this.createStalker(this.body[i]);
+		stalkers[i] = createStalker(this.body[i]);
 	}
 	return stalkers;
 }
@@ -90,10 +131,10 @@ Snake.prototype.createMultipleStalkers = function(){
 	lo stalker appena creato avrà tutte le sue posizioni uguali pari alla posizione iniziale di origin
 	questo permette il ritardo	voluto nel tracciare le posizioni di origin
 */
-Snake.prototype.createStalker = function(origin){
-	var delay = 20;
+// Snake.prototype.createStalker = function(origin){
+function createStalker(origin){
 	var stalker = [];
-	for(var i = 0; i < delay; i++) {
+	for(var i = 0; i < DELAY; i++) {
 	    stalker.push(origin.position.clone());
 	}
 	return stalker;
