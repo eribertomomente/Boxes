@@ -6,7 +6,7 @@
 **/
 
 var geometry = new THREE.BoxGeometry(1,1,1);
-var material = new THREE.MeshBasicMaterial( {wireframe:true});
+var material = new THREE.MeshBasicMaterial( {wireframe:false});
 material.map = new THREE.TextureLoader().load('images/boa_texture.jpg');
 
 function Snake (){

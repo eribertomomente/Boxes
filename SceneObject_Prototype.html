@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<title>Scene Objects</title>
+		<style>
+
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+
+	</style>
+		<script src="lib/three.min.js"></script>
+		<script src="lib/stats.min.js"></script>
+		<script src="obj/tree.js"></script>
+		<script src="config.js"></script>
+	</head>
+	<body>
+
+		<script>
+
+			var scene, renderer, camera, stats, originPosition;;
+
+			function Start() {
+
+				// set-up base
+				scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor( 0xa7f442 );
+				document.body.appendChild( renderer.domElement );
+
+				// set-up scena
+				var tree = new Tree();
+
+				// statistiche frame
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				document.body.appendChild( stats.domElement );
+
+				scene.rotation.x = 20*Math.PI/180;
+				
+				// set-up camera
+				camera.position.y = 2;
+				camera.position.z = 20;
+
+			}
+
+
+			
+			function Render() {
+
+				requestAnimationFrame(Render);
+				stats.update();
+				scene.rotateY(0.01);
+				renderer.render(scene, camera);
+			}
+
+			Start();
+			Render();
+
+		</script>
+	</body>
+</html>
