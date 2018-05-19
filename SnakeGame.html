@@ -81,28 +81,28 @@
 				var speed = 0.05;
 				switch(direction){
 					case 0:
-						if(posX > halfEdge2){
+						if(posX >= halfEdge1){
 							direction = 1;
 						}else{
 							posX += speed;
 						}
 					break;
 					case 1:
-						if (posY > halfEdge2){
+						if (posY >= halfEdge1){
 							direction = 2;
 						}else{
 							posY += speed;
 						}
 					break;
 					case 2:
-						if(posX < -halfEdge1){
+						if(posX <= -halfEdge1){
 							direction = 3;
 						}else{
 							posX -= speed;
 						}
 					break;
 					case 3:
-						if (posY < -halfEdge1){
+						if (posY <= -halfEdge1){
 							direction = 0;
 						}else{
 							posY -= speed;
@@ -141,7 +141,7 @@
 				}
 			}
 
-			
+
 			function Render() {
 
 				requestAnimationFrame(Render);
@@ -159,7 +159,7 @@
 					originPosition = game.snake.catchCurrentPosition();
 				}
 
-				if (game.snake.isGettingBigger){					
+				if (game.snake.isGettingBigger){
 					if (game.snake.isInOriginPosition(originPosition)){
 						game.snake.addBodyPart(originPosition);
 					}
