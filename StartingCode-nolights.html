@@ -40,8 +40,30 @@
 			camera.lookAt( new THREE.Vector3(0,0,0));
 			
 			var geometry = new THREE.BoxGeometry(1,1,1);
-			var material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
-			var cube = new THREE.Mesh( geometry, material );
+			/*************************************************
+			*************************************************/
+			var textureLoader = new THREE.TextureLoader();
+			var texture_bottom = textureLoader.load( './textures/minecraft2/bottom.jpg' );
+			var texture_cx1 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx2 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx3 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx4 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_top = textureLoader.load( './textures/minecraft2/top.jpg' );
+
+			var grounds_materials = [
+			    new THREE.MeshBasicMaterial( { map: texture_cx1 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx2 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_top } ),
+			    new THREE.MeshBasicMaterial( { map: texture_bottom } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx3 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx4 } )
+			];
+			var ground_material = new THREE.MeshFaceMaterial( grounds_materials );
+
+			/*************************************************
+			*************************************************/
+
+			var cube = new THREE.Mesh( geometry, ground_material );
 			
 			scene.add( cube );
 			

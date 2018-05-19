@@ -1,4 +1,5 @@
 ## TODO
+0. sistemare applicazione texture
 1. Migliorare la funzione isEatingHimself (brutto if)
 2. Gestire movimento toroidale agli estremi del campo
 3. Fixare variabile direction, deve essere un parametro dello snake e non esserne esterno

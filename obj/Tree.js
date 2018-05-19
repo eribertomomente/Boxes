@@ -1,12 +1,11 @@
 function Tree (x=0, z=0){
 	this.trunck = createTrunk(x,z);
 	this.leaves = createLeaves(x,z);
-	
 }
 
 
 function createTrunk(OriginX,OriginZ){
-	var geometry = new THREE.BoxGeometry(2,1,2);
+	var geometry = new THREE.BoxGeometry(1,1,1);
 	var trunk_material = new THREE.MeshBasicMaterial();
 	trunk_material.map = new THREE.TextureLoader().load('images/trunk_texture.png');
 	for (var i = 0; i < TRUNK_HEIGHT; i++) {

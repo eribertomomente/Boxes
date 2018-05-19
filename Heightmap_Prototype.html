@@ -31,47 +31,44 @@
 
 			if (scale == undefined) scale=1;
 
-	    var canvas = document.createElement( 'canvas' );
-	    canvas.width = img.width;
-	    canvas.height = img.height;
-	    var context = canvas.getContext( '2d' );
+		    var canvas = document.createElement( 'canvas' );
+		    canvas.width = img.width;
+		    canvas.height = img.height;
+		    var context = canvas.getContext( '2d' );
 
-	    var size = img.width * img.height;
+		    var size = img.width * img.height;
 			console.log(size);
-	    var data = new Float32Array( size );
+		    var data = new Float32Array( size );
 
-	    context.drawImage(img,0,0);
+		    context.drawImage(img,0,0);
 
-	    for ( var i = 0; i < size; i ++ ) {
-	        data[i] = 0
-	    }
+		    for ( var i = 0; i < size; i ++ ) {
+		        data[i] = 0
+		    }
 
-	    var imgd = context.getImageData(0, 0, img.width, img.height);
-	    var pix = imgd.data;
+		    var imgd = context.getImageData(0, 0, img.width, img.height);
+		    var pix = imgd.data;
 
-	    var j=0;
-	    for (var i = 0; i<pix.length; i +=4) {
-	        var all = pix[i]+pix[i+1]+pix[i+2];  // all is in range 0 - 255*3
-	        data[j++] = scale*all/3;
-	    }
+		    var j=0;
+		    for (var i = 0; i<pix.length; i +=4) {
+		        var all = pix[i]+pix[i+1]+pix[i+2];  // all is in range 0 - 255*3
+		        data[j++] = scale*all/3;
+		    }
 
-	    return data;
+		    return data;
 		}
 
 		function Start() {
 			scene = new THREE.Scene();
 			camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-
 			renderer = new THREE.WebGLRenderer( {antialias: true} );
 			renderer.setSize( window.innerWidth, window.innerHeight );
-			renderer.setClearColor( 0xf0f0f0 );
+			renderer.setClearColor( 0x000000 );
 			document.body.appendChild( renderer.domElement );
-
 
 			camera.position.set(-5,20,45);
 			camera.lookAt( new THREE.Vector3(0,0,0));
-
 
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
@@ -93,7 +90,7 @@
 
 			}
 			// load img source
-			img.src = "textures/heightmap2.png";
+			img.src = "images/machu_picchu4.jpg";
 
 		}
 
@@ -104,6 +101,47 @@
 			// array di materiali utilizzati
 			materials = [];
 
+			var water_material = new THREE.MeshBasicMaterial();
+      		water_material.map = new THREE.TextureLoader().load('textures/water.jpg')
+			
+			var textureLoader = new THREE.TextureLoader();
+
+			/*************************************************
+			*************************************************/
+
+			var texture_bottom = textureLoader.load( './textures/minecraft2/bottom.jpg' );
+			var texture_cx1 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx2 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx3 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx4 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_top = textureLoader.load( './textures/minecraft2/top.jpg' );
+
+			var grounds_materials = [
+			    new THREE.MeshBasicMaterial( { map: texture_cx1 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx2 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_top } ),
+			    new THREE.MeshBasicMaterial( { map: texture_bottom } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx3 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx4 } )
+			];
+			var ground_material = new THREE.MeshFaceMaterial( grounds_materials );
+
+			/*************************************************
+			*************************************************/
+
+			var texture_rock = textureLoader.load( './textures/rock.jpg' );
+
+			var rock_materials = [
+			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
+			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
+			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
+			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
+			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
+			    new THREE.MeshBasicMaterial( { map: texture_rock } )
+			];
+			var rock_material = new THREE.MeshFaceMaterial( rock_materials );
+
+ 
 			for(var i=0; i<d.length; i++){
 
 				// colore del pixel(0 - 255) in considerazione
@@ -124,7 +162,17 @@
 					materials[exist] = new THREE.MeshBasicMaterial( {color: "rgb(" + pColor + ", " + pColor + ", " + pColor + ")" } );	// materiale di colore uguale al pixel dell'immagine
 				}
 
-				var cube = new THREE.Mesh( geometry, materials[exist] );
+				var mat = materials[exist];
+
+				if (d[i]<5){
+					mat = water_material;
+				} else if (d[i]<10){
+					mat = ground_material;
+				} else if (d[i]<15){
+					mat = rock_material;
+				}
+
+				var cube = new THREE.Mesh( geometry, mat );
 
 				// imposto la posizione del cubo rispettando l'immagine originale
 				cube.position.set(i%img.width - img.width/2, d[i]/2, Math.trunc(i/img.height) - img.height/2);
