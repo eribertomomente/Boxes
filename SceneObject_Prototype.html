@@ -21,7 +21,8 @@
 		<script src="lib/Coordinates.js"></script>
 		<script src="lib/OrbitControls.js"></script>
 		<!-- <script src="obj/tree.js"></script> -->
-		<script src="obj/chicken.js"></script>
+		<!-- <script src="obj/chicken.js"></script> -->
+		<script src="obj/arena.js"></script>
 		<script src="config.js"></script>
 	</head>
 	<body>
@@ -59,8 +60,8 @@
 
 
 			// var tree = new Tree();
-			var chicken = new Chicken();
-			scene.add(chicken.body);
+			var arena = new Arena(0,3,0);
+			scene.add(arena.floor);
 		}
 		
 		function Update() {

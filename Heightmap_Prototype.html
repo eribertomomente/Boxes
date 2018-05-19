@@ -19,6 +19,7 @@
 		<script src="lib/three.min.js"></script>
 		<script src="lib/stats.min.js"></script>
 		<script src="lib/OrbitControls.js"></script>
+		<script src="obj/Arena.js"></script>
 	</head>
 	<body>
 
@@ -91,6 +92,10 @@
 			}
 			// load img source
 			img.src = "images/machu_picchu4.jpg";
+
+			var arena = new Arena(179,611,35);
+			arena.floor.scale.set( 0.028, 0.028, 0.028 );
+			scene.add(arena.floor);
 
 		}
 
@@ -165,11 +170,11 @@
 				var mat = materials[exist];
 
 				if (d[i]<5){
-					mat = water_material;
+					//mat = water_material;
 				} else if (d[i]<10){
-					mat = ground_material;
+					//mat = ground_material;
 				} else if (d[i]<15){
-					mat = rock_material;
+					//mat = rock_material;
 				}
 
 				var cube = new THREE.Mesh( geometry, mat );
