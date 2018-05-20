@@ -6,12 +6,12 @@
 **/
 
 var geometry = new THREE.BoxGeometry(1,1,1);
-var material = new THREE.MeshBasicMaterial( {wireframe:false});
-material.map = new THREE.TextureLoader().load('images/boa_texture.jpg');
+var material = new THREE.MeshBasicMaterial( {color: 0xff0000});
 
-function Snake (){
+function Snake (xPos, yPos, zPos){
 	var bodyLength = SNAKE_LENGTH;
-	this.body = this.createBody(bodyLength);
+	this.bodyObj = new THREE.Object3D();
+	this.body = this.createBody(bodyLength, xPos, yPos, zPos);
 	this.stalkers = this.createMultipleStalkers();
 	this.isGettingBigger = false;
 	this.bodyLength = bodyLength;
@@ -65,7 +65,7 @@ Snake.prototype.addBodyPart = function(pos){
 
 	// creazione del nuovo cubo
 	var newBodyPart = new THREE.Mesh( geometry, material);
-	scene.add(newBodyPart);
+	this.bodyObj.add(newBodyPart);
 	newBodyPart.position.set(pos.x, pos.y, pos.z);
 
 	this.body.push(newBodyPart);
@@ -77,7 +77,7 @@ Snake.prototype.addBodyPart = function(pos){
 
 
 /*
-	restituisce la posizione in cui si trova la testa dello snake 
+	restituisce la posizione in cui si trova la testa dello snake
 	nell'istante in cui viene chiamata questa funzione
 */
 Snake.prototype.catchCurrentPosition = function(){
@@ -100,12 +100,12 @@ Snake.prototype.isInOriginPosition = function(position){
 	PRIVATE
 	crea il corpo di uno snake
 */
-Snake.prototype.createBody = function(bodyLength){
+Snake.prototype.createBody = function(bodyLength, xPos, yPos, zPos){
 	var cubes=[];
 	for ( i=0; i<bodyLength; i++ ){
 		cubes[i] = new THREE.Mesh( geometry, material );
-		scene.add(cubes[i]);
-		cubes[i].position.set(0,0,0);
+		this.bodyObj.add(cubes[i]);
+		cubes[i].position.set(xPos,yPos,zPos);
 	}
 	return cubes;
 }
