@@ -46,28 +46,66 @@
 			*************************************************/
 			var textureLoader = new THREE.TextureLoader();
 			var texture_bottom = textureLoader.load( './textures/minecraft2/bottom.jpg' );
-			var texture_cx1 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx2 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx3 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx4 = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var texture_cx = textureLoader.load( './textures/minecraft2/front.jpg' );
 			var texture_top = textureLoader.load( './textures/minecraft2/top.jpg' );
 
 			var grounds_materials = [
-			    new THREE.MeshBasicMaterial( { map: texture_cx1 } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx2 } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx } ),
 			    new THREE.MeshBasicMaterial( { map: texture_top } ),
 			    new THREE.MeshBasicMaterial( { map: texture_bottom } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx3 } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx4 } )
+			    new THREE.MeshBasicMaterial( { map: texture_cx } ),
+			    new THREE.MeshBasicMaterial( { map: texture_cx } )
 			];
 			var ground_material = new THREE.MeshFaceMaterial( grounds_materials );
 
 			/*************************************************
 			*************************************************/
+			var rock_top = textureLoader.load( './textures/rock/top.png' );
+			var rock_side = textureLoader.load( './textures/rock/side.png' );
 
-			var cube = new THREE.Mesh( geometry, ground_material );
+			var rock_materials = [
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_top } ),
+			    new THREE.MeshBasicMaterial( { map: rock_top } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } )
+			];
+			var rock_material = new THREE.MeshFaceMaterial( rock_materials );
+
+			/*************************************************
+			*************************************************/
+
+			var hill_top = textureLoader.load( './textures/hill/top.jpg' );
+			var hill_side = textureLoader.load( './textures/hill/side.jpg' );
+
+			var hill_materials = [
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_top } ),
+			    new THREE.MeshBasicMaterial( { map: hill_top } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } )
+			];
+			var hill_material = new THREE.MeshFaceMaterial( hill_materials );
+
+			/*************************************************
+			*************************************************/
+
+			var grass = new THREE.Mesh( geometry, ground_material );
+			var rock = new THREE.Mesh( geometry, rock_material );
+			var hill = new THREE.Mesh( geometry, hill_material );
 			
-			scene.add( cube );
+			scene.add( grass );
+			grass.position.x = -2;
+
+			scene.add( hill );
+			
+			scene.add( rock );
+			rock.position.x = 2;
+
+			
 			
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';

@@ -1,7 +1,9 @@
 ## TODO
-0. sistemare applicazione texture
+-0,1. Chiamare Erib, dargli il buongiorno e dirgli che sei operativo per iniziare
+0. sistemare applicazione texture (vedi *)
+0,4. Chiamare Erib per discutere con lui di un modo efficiente per posizionare e scalare l'arena da mettere sul terreno
+0,5. Applicare lo snake sull'arena
 1. Migliorare la funzione isEatingHimself (brutto if)
-2. Gestire movimento toroidale agli estremi del campo
 3. Fixare variabile direction, deve essere un parametro dello snake e non esserne esterno
 
 ## DONE
@@ -20,3 +22,7 @@
 - visione snake in prima persona
 - ciliegia come punto luce
 - dissolvenza verso le estremità dello snake quando si mangia con flame_prototype
+
+
+
+* Nel file SceneObject_Prototype la texture viene applicata perfettamente (Bravo Erib) mentre con lo stesso codice (ma forse no) nel file HeightMap_Prototype no.

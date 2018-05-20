@@ -104,7 +104,7 @@
 			// viene usata una sola geometria per disegnare tutti i cubi
 			var geometry = new THREE.BoxGeometry(1,1,1);
 			// array di materiali utilizzati
-			materials = [];
+			//materials = [];
 
 			var water_material = new THREE.MeshBasicMaterial();
       		water_material.map = new THREE.TextureLoader().load('textures/water.jpg')
@@ -121,7 +121,7 @@
 			var texture_cx4 = textureLoader.load( './textures/minecraft2/front.jpg' );
 			var texture_top = textureLoader.load( './textures/minecraft2/top.jpg' );
 
-			var grounds_materials = [
+			var ground_materials = [
 			    new THREE.MeshBasicMaterial( { map: texture_cx1 } ),
 			    new THREE.MeshBasicMaterial( { map: texture_cx2 } ),
 			    new THREE.MeshBasicMaterial( { map: texture_top } ),
@@ -129,26 +129,46 @@
 			    new THREE.MeshBasicMaterial( { map: texture_cx3 } ),
 			    new THREE.MeshBasicMaterial( { map: texture_cx4 } )
 			];
-			var ground_material = new THREE.MeshFaceMaterial( grounds_materials );
+			var ground_material = new THREE.MeshFaceMaterial( ground_materials );
 
 			/*************************************************
 			*************************************************/
 
-			var texture_rock = textureLoader.load( './textures/rock.jpg' );
+			var rock_top = textureLoader.load( './textures/rock/top.png' );
+			var rock_side = textureLoader.load( './textures/rock/side.png' );
 
 			var rock_materials = [
-			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
-			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
-			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
-			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
-			    new THREE.MeshBasicMaterial( { map: texture_rock } ),
-			    new THREE.MeshBasicMaterial( { map: texture_rock } )
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_top } ),
+			    new THREE.MeshBasicMaterial( { map: rock_top } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } ),
+			    new THREE.MeshBasicMaterial( { map: rock_side } )
 			];
 			var rock_material = new THREE.MeshFaceMaterial( rock_materials );
 
- 
-			for(var i=0; i<d.length; i++){
+			/*************************************************
+			*************************************************/
 
+			var hill_top = textureLoader.load( './textures/hill/top.jpg' );
+			var hill_side = textureLoader.load( './textures/hill/side.jpg' );
+
+			var hill_materials = [
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_top } ),
+			    new THREE.MeshBasicMaterial( { map: hill_top } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } ),
+			    new THREE.MeshBasicMaterial( { map: hill_side } )
+			];
+			var hill_material = new THREE.MeshFaceMaterial( hill_materials );
+
+			/*************************************************
+			*************************************************/
+
+ 			
+			for(var i=0; i<d.length; i++){
+				/***
 				// colore del pixel(0 - 255) in considerazione
 				var pColor = Math.trunc(d[i]*10);
 
@@ -168,13 +188,18 @@
 				}
 
 				var mat = materials[exist];
+				***/
+
+				var mat = new THREE.MeshBasicMaterial( {color: 0xcfcfcf});
 
 				if (d[i]<5){
-					//mat = water_material;
+					mat = water_material;
 				} else if (d[i]<10){
-					//mat = ground_material;
+					mat = ground_material;
 				} else if (d[i]<15){
-					//mat = rock_material;
+					mat = hill_material;
+				} else if (d[i]){
+					mat = rock_material;
 				}
 
 				var cube = new THREE.Mesh( geometry, mat );
