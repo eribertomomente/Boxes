@@ -4,25 +4,24 @@
 
 // costruttore
 function SnakeGame(x,y,z){
-	this.snake = new Snake(x, y+3, z);	// sopra ai 3 strati di pavimento
 	this.center = new THREE.Vector3(x, y, z);
-	this.arena = new Arena(x,y,z);
 
-	this.arena.floor.scale.set( 0.028, 0.028, 0.028 );
-	this.snake.bodyObj.scale.set( 0.028, 0.028, 0.028 );
+	this.snake = new Snake(x, y+3, z);	// sopra ai 3 strati di pavimento
+	this.arena = new Arena(x,y,z);
+	this.target = this.createTarget();
+
+	this.arena.floor.scale.set(0.028, 0.028, 0.028);
+	this.snake.bodyObj.scale.set(0.028, 0.028, 0.028);
+	this.target.scale.set(0.028, 0.028, 0.028);
 
 	scene.add(this.arena.floor);
 	scene.add(this.snake.bodyObj);
+	scene.add(this.target);
 
 	this.direction = 0;
 }
 
 SnakeGame.prototype.move = function(){
-
-	/*
-		var halfEdge1 = Math.floor(FIELD_DIMENSION/2);
-		var halfEdge2 = FIELD_DIMENSION- halfEdge1;
-		*/
 
 		var dim = (FIELD_DIMENSION-8)/2;
 
@@ -72,6 +71,18 @@ SnakeGame.prototype.move = function(){
 
 		this.snake.moveBody();
 
+		// gestione mela
+		if(this.isEatingTarget()){
+
+			scene.remove(this.target);
+			this.target.geometry.dispose();
+			this.target.material.dispose();
+			this.target = this.createTarget();
+			this.target.scale.set(0.028, 0.028, 0.028);
+			scene.add(this.target);
+
+		}
+
 }
 
 /*
@@ -80,17 +91,38 @@ SnakeGame.prototype.move = function(){
 */
 SnakeGame.prototype.isEatingTarget = function(){
 
-	var head = this.snake.body[0];
-	var target = this.field.target;
+	var head = this.snake.bodyObj.children[0];
+	var target = this.target;
 
 	head.updateMatrixWorld( true );
 	target.updateMatrixWorld( true );
 	target.geometry.computeBoundingBox();
 	head.geometry.computeBoundingBox();
 
-	var headBox = head.geometry.boundingBox.applyMatrix4(head.matrix);
+	var headBox = head.geometry.boundingBox.applyMatrix4(head.matrix).applyMatrix4(this.snake.bodyObj.matrix);
 	var targetBox = target.geometry.boundingBox.applyMatrix4(target.matrix);
 
 	return(targetBox.intersectsBox(headBox));
+
+}
+
+/*
+	creazione del target
+*/
+SnakeGame.prototype.createTarget = function(){
+
+	var dim = (FIELD_DIMENSION-8);
+
+	var posX = this.center.x + Math.round((Math.random()*dim) - dim/2);
+	var posZ = this.center.z + Math.round((Math.random()*dim) - dim/2);
+
+	var geometry = new THREE.BoxGeometry(1,1,1);
+	var material = new THREE.MeshBasicMaterial( {color: 0xff0000});
+
+	var cube = new THREE.Mesh( geometry, material);
+
+	cube.position.set(posX * 0.028, (this.center.y+3) * 0.028, posZ * 0.028);
+
+	return cube;
 
 }
