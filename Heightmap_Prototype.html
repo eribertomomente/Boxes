@@ -101,7 +101,7 @@
 
 			}
 			// load img source
-			img.src = "images/machu_picchu4.jpg";
+			img.src = "images/machu_picchu3.jpg";
 
 			// set-up scena
 			game = new SnakeGame(178.5,611,35.5);
@@ -151,20 +151,20 @@
 			/*************************************************
 			*************************************************/
 
-			var texture_bottom = textureLoader.load( './textures/minecraft2/bottom.jpg' );
-			var texture_cx1 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx2 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx3 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_cx4 = textureLoader.load( './textures/minecraft2/front.jpg' );
-			var texture_top = textureLoader.load( './textures/minecraft2/top.jpg' );
+			var ground_bottom = textureLoader.load( './textures/minecraft2/bottom.jpg' );
+			var ground_side = textureLoader.load( './textures/minecraft2/front.jpg' );
+			var ground_top = textureLoader.load( './textures/minecraft2/top.jpg' );
+			ground_side.wrapT = THREE.RepeatWrapping;
+			ground_side.wrapS = THREE.RepeatWrapping;
+			ground_side.repeat.set( 1, 6 );
 
 			var ground_materials = [
-			    new THREE.MeshBasicMaterial( { map: texture_cx1 } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx2 } ),
-			    new THREE.MeshBasicMaterial( { map: texture_top } ),
-			    new THREE.MeshBasicMaterial( { map: texture_bottom } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx3 } ),
-			    new THREE.MeshBasicMaterial( { map: texture_cx4 } )
+			    new THREE.MeshBasicMaterial( { map: ground_side } ),
+			    new THREE.MeshBasicMaterial( { map: ground_side } ),
+			    new THREE.MeshBasicMaterial( { map: ground_top } ),
+			    new THREE.MeshBasicMaterial( { map: ground_bottom } ),
+			    new THREE.MeshBasicMaterial( { map: ground_side } ),
+			    new THREE.MeshBasicMaterial( { map: ground_side } )
 			];
 			var ground_material = new THREE.MeshFaceMaterial( ground_materials );
 
@@ -189,6 +189,9 @@
 
 			var hill_top = textureLoader.load( './textures/hill/top.jpg' );
 			var hill_side = textureLoader.load( './textures/hill/side.jpg' );
+			hill_side.wrapT = THREE.RepeatWrapping;
+			hill_side.wrapS = THREE.RepeatWrapping;
+			hill_side.repeat.set( 1, 6 );
 
 			var hill_materials = [
 			    new THREE.MeshBasicMaterial( { map: hill_side } ),
@@ -226,18 +229,18 @@
 
 				var mat = materials[exist];
 
-				/*
-				var mat = new THREE.MeshBasicMaterial( {color: 0xcfcfcf});
+				
+				// var mat = new THREE.MeshBasicMaterial( {color: 0xcfcfcf});
 
 				if (d[i]<5){
 					mat = water_material;
 				} else if (d[i]<10){
 					mat = ground_material;
 				} else if (d[i]<15){
-					mat = hill_material;
+					// mat = hill_material;
 				} else if (d[i]){
-					mat = rock_material;
-				}*/
+					// mat = rock_material;
+				}
 
 				var cube = new THREE.Mesh( geometry, mat );
 
