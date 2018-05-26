@@ -7,34 +7,27 @@ function Arena (x=0, y=0, z=0){
 	this.floor = new THREE.Object3D();
 
 	/** strato inferiore **/
-	var floor0 = this.createFloor(dark_material, FIELD_DIMENSION, 0);
+	var floor0 = this.createFloor(dark_material, FIELD_DIMENSION);
 	this.floor.add(floor0);
 	floor0.position.set(x,y,z);
 
 	/** secondo strato **/
-	var floor1 = this.createFloor(light_material, FIELD_DIMENSION-8, 1);
+	var floor1 = this.createFloor(light_material, FIELD_DIMENSION-8);
 	this.floor.add(floor1);
-	floor1.position.set(x,y,z);
+	floor1.position.set(x,y+1,z);
 
 	/** terzo strato o pavimento dell'arena **/
-	var floor2 = this.createFloor(light_material, FIELD_DIMENSION-8, 2);
+	var floor2 = this.createFloor(light_material, FIELD_DIMENSION-8);
 	this.floor.add(floor2);
-	floor2.position.set(x,y,z);
+	floor2.position.set(x,y+2,z);
 
 }
 
 
-Arena.prototype.createFloor = function(material, dim, h){
-	var base = new THREE.Object3D();
-	halfDim1 = Math.floor(dim/2);
-	halfDim2 = dim - halfDim1;
-	for (var i = -halfDim1; i <halfDim2; i++){
-		for (var j = -halfDim1; j < halfDim2; j++) {
-			var block = new THREE.Mesh( this.geometry, material );
-			base.add(block);
-			block.position.set(i,h,j);
-		}
-	}
+Arena.prototype.createFloor = function(material, dim){
+	var base = new THREE.Mesh( this.geometry, material );
+	base.scale.x = dim;
+	base.scale.z = dim;
 
 	return base;
 }

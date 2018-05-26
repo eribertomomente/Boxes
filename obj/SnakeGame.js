@@ -3,20 +3,23 @@
 **/
 
 // costruttore
-function SnakeGame(x,y,z){
+function SnakeGame(x=0,y=0,z=0){
+	this.snakegame = new THREE.Object3D();
 	this.center = new THREE.Vector3(x, y, z);
 
 	this.snake = new Snake(x, y+3, z);	// sopra ai 3 strati di pavimento
 	this.arena = new Arena(x,y,z);
 	this.target = this.createTarget();
 
-	this.arena.floor.scale.set(0.028, 0.028, 0.028);
-	this.snake.bodyObj.scale.set(0.028, 0.028, 0.028);
-	this.target.scale.set(0.028, 0.028, 0.028);
+	// this.arena.floor.scale.set(0.028, 0.028, 0.028);
+	// this.snake.bodyObj.scale.set(0.028, 0.028, 0.028);
+	// this.target.scale.set(0.028, 0.028, 0.028);
 
-	scene.add(this.arena.floor);
-	scene.add(this.snake.bodyObj);
-	scene.add(this.target);
+	this.snakegame.add(this.arena.floor);
+	this.snakegame.add(this.snake.bodyObj);
+	this.snakegame.add(this.target);
+
+	scene.add(this.snakegame);
 
 	this.direction = 0;
 }
@@ -121,7 +124,7 @@ SnakeGame.prototype.createTarget = function(){
 
 	var cube = new THREE.Mesh( geometry, material);
 
-	cube.position.set(posX * 0.028, (this.center.y+3) * 0.028, posZ * 0.028);
+	cube.position.set(posX, (this.center.y+3), posZ);
 
 	return cube;
 

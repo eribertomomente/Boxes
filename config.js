@@ -1,5 +1,5 @@
 SNAKE_LENGTH = 3;
-FIELD_DIMENSION = 35;
+FIELD_DIMENSION =35; // 35*7
 SPEED = 0.5;
 // ritardo con cui un follower segue il suo origin
 // indica concretamente il numero di posizione memorizzate in ogni posizione di stalkers
