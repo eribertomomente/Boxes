@@ -2,8 +2,8 @@
 
 function Arena (x=0, y=0, z=0){
 	this.geometry = new THREE.BoxGeometry(1,1,1);
-	dark_material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
-	light_material = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
+	dark_material = new THREE.MeshPhongMaterial( { color: 0xaaaaaa, specular: 0x050505 } );
+	light_material = new THREE.MeshPhongMaterial( { color: 0xcccccc, specular: 0x050505 } );
 
 	this.floor = new THREE.Object3D();
 

@@ -1,7 +1,6 @@
 function Column (x=0, z=0){
 	this.geometry = new THREE.BoxGeometry(1,1,1);
-	// this.material = new THREE.MeshBasicMaterial( { color: 0xff7614 } );
-	this.material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
+	this.material = new THREE.MeshPhongMaterial( { color: 0xaaaaaa, specular: 0x050505 } );
 
 	this.col = new THREE.Object3D();
 	h=0; // global

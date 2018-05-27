@@ -136,7 +136,7 @@ SnakeGame.prototype.createTarget = function(){
 	var posZ = Math.round((Math.random()*dim) - dim/2);
 
 	var geometry = new THREE.BoxGeometry(1,1,1);
-	var material = new THREE.MeshBasicMaterial( {color: 0xff0000});
+	var material = new THREE.MeshPhongMaterial( {color: 0xff0000, specular: 0x050505});
 
 	var cube = new THREE.Mesh( geometry, material);
 

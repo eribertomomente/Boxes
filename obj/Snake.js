@@ -6,7 +6,7 @@
 **/
 
 var geometry = new THREE.BoxGeometry(1,1,1);
-var material = new THREE.MeshBasicMaterial( {color: 0x00ff00});
+var material = new THREE.MeshPhongMaterial( {color: 0x00ff00, specular: 0x050505});
 
 function Snake (xPos, yPos, zPos){
 	var bodyLength = SNAKE_LENGTH;
