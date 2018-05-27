@@ -7,7 +7,7 @@ DELAY = 1/SPEED;
 CAMERA_Z_POSITION = 10;
 
 CAMERA_BASE = new THREE.Vector3(5,34,11);
-ARENA_CENTER = new THREE.Vector3(5,25,1);
+ARENA_CENTER = new THREE.Vector3(5,25.1,1);
 TOLL = 0.0000001;
 
 // oggetto tree per la scena

@@ -67,7 +67,7 @@
 		    var j=0;
 		    for (var i = 0; i<pix.length; i +=4) {
 		        var all = pix[i]+pix[i+1]+pix[i+2];  // all is in range 0 - 255*3
-		        data[j++] = scale*all/3;
+		        data[j++] = scale*(all/3);
 		    }
 
 		    return data;
@@ -112,7 +112,7 @@
 
 			}
 			// load img source
-			img.src = "images/machu_picchu5.jpg";
+			img.src = "images/machu_picchu5.png";
 
 			// set-up scena
 			game = new SnakeGame();
@@ -168,11 +168,11 @@
 			for(var i=0; i<d.length; i++){
 
 				// colore del pixel(0 - 255) in considerazione
-				var pColor = Math.trunc(d[i]*10);
+				var pColor = Math.round(d[i]*10);
 
 				if (d[i]<6){ /****************** BLUE ******************/
 
-					var hsbColor = Math.round(pColor/255*100)+25;
+					var hsbColor = Math.trunc(pColor/255*100)+25;
 
 					var exist = _check_color_material(blue_materials, hsbColor);
 
