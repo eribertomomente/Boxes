@@ -2,8 +2,9 @@
 
 function Arena (x=0, y=0, z=0){
 	this.geometry = new THREE.BoxGeometry(1,1,1);
-	dark_material = new THREE.MeshBasicMaterial( { color: 0xf4b042 } );
-	light_material = new THREE.MeshBasicMaterial( { color: 0xf2c680 } );
+	dark_material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa } );
+	light_material = new THREE.MeshBasicMaterial( { color: 0xcccccc } );
+
 	this.floor = new THREE.Object3D();
 
 	/** strato inferiore **/
@@ -20,6 +21,18 @@ function Arena (x=0, y=0, z=0){
 	var floor2 = this.createFloor(light_material, FIELD_DIMENSION-8);
 	this.floor.add(floor2);
 	floor2.position.set(x,y+2,z);
+
+	col = [];
+	for (var i = 0; i < 4; i++) {
+		col[i] = new Column();
+		this.floor.add(col[i].col);
+		col[i].col.scale.set(0.44, 0.44, 0.44);
+	}
+
+	col[0].col.position.set(15.5,1,15.5);
+	col[1].col.position.set(-15.5,1,15.5);
+	col[2].col.position.set(15.5,1,-15.5);
+	col[3].col.position.set(-15.5,1,-15.5);
 
 }
 
