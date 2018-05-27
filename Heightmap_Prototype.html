@@ -33,6 +33,14 @@
 
 		var scene, camera, renderer, controls, stats;
 
+		/*
+			0 -> nessun riposizionamento
+			1 -> iniziare riposizionamento
+			2 -> riposizionamento in corso
+			3 -> riposizionamento angolazione camera
+		*/
+		var repositioning;
+
 		//return array with height data from img, taken from: http://danni-three.blogspot.it/2013/09/threejs-heightmaps.html
 		function getHeightData(img,scale) {
 
@@ -74,21 +82,21 @@
 			renderer.setClearColor( 0x000000 );
 			document.body.appendChild( renderer.domElement );
 
-			camera.position.set(-5,20,45);
-			camera.lookAt( new THREE.Vector3(0,0,0));
+			camera.position.add(CAMERA_BASE);
 
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
 			stats.domElement.style.top = '0px';
 			document.body.appendChild( stats.domElement );
 
-			//mause controls
+			//mouse controls
 			controls = new THREE.OrbitControls( camera );
 			controls.enableKeys = false;
 			controls.addEventListener( 'change', Render );
+			controls.target.set(5,25,1);
 
-			// le quattro frecce
-			this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
+			// le quattro frecce e l'invio
+			this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, ENTER: 13 };
 
 			// gestisco l'evento di pressione di un tasto
 			window.addEventListener( 'keydown', onKeyDown, false );
@@ -110,7 +118,9 @@
 			game = new SnakeGame();
 
 			game.snakegame.scale.set(0.2,0.2,0.2);
-			game.snakegame.position.set(5,25,1);
+			game.snakegame.position = ARENA_CENTER;
+
+			repositioning = 0;
 		}
 
 		/*
@@ -137,6 +147,10 @@
 				case keys.BOTTOM:
 						//console.log("giu")
 						game.direction = (game.direction != 1) ? 3 : 1;	// cambio direzione solo se non sto andando nella direzione opposta
+					break;
+
+				case keys.ENTER:
+						repositioning = repositioning != 2 ? 1 : 2;
 					break;
 			}
 		}
@@ -220,10 +234,54 @@
 			return -1;
 		}
 
+		// esegue lo spostamento della camera al posizione iniziale
+		function reposCamera(step){
+
+			if((camera.position.x >= CAMERA_BASE.x - TOLL)&&(camera.position.x <= CAMERA_BASE.x + TOLL)&&(camera.position.y >= CAMERA_BASE.y - TOLL)&&(camera.position.y <= CAMERA_BASE.y + TOLL)&&(camera.position.z >= CAMERA_BASE.z - TOLL)&&(camera.position.z <= CAMERA_BASE.z + TOLL)){
+				repositioning = 0;
+				controls.enableZoom = true;
+				controls.enableRotate = true;
+				controls.enablePan = true;
+				return;
+			}
+
+			camera.position.sub(step);
+
+		}
+
+		// esegue la rotazione della camera verso il centro dell'arena
+		function reposRotCamera(step){
+
+			if((controls.target.x >= ARENA_CENTER.x - TOLL)&&(controls.target.x <= ARENA_CENTER.x + TOLL)&&(controls.target.y >= ARENA_CENTER.y - TOLL)&&(controls.target.y <= ARENA_CENTER.y + TOLL)&&(controls.target.z >= ARENA_CENTER.z - TOLL)&&(controls.target.z <= ARENA_CENTER.z + TOLL)){
+				repositioning = 2;
+				return;
+			}
+
+			controls.target.sub(step);
+
+		}
+
 		function Update() {
 			requestAnimationFrame( Update );
 
 			game.move();
+
+			switch(repositioning){
+				case 1:
+						repositioning = 3;
+						controls.enableZoom = false;
+						controls.enableRotate = false;
+						controls.enablePan = false;
+						stepPos = camera.position.clone().sub(CAMERA_BASE).divideScalar(60);
+						stepCamera = controls.target.clone().sub(ARENA_CENTER).divideScalar(20);
+					break;
+				case 2:
+						reposCamera(stepPos);
+					break;
+				case 3:
+						reposRotCamera(stepCamera);
+					break;
+			}
 
 			controls.update();
 			stats.update();

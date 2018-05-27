@@ -69,13 +69,22 @@ SnakeGame.prototype.move = function(){
 		this.snake.body[0].position.set(posX, posY, posZ);
 		this.snake.moveBody();
 
+		if(this.snake.isEatingHimself(this.direction)){
+
+			this.snakegame.remove(this.snake.bodyObj);
+			this.snake = new Snake(0, 3, 0);
+			this.snakegame.add(this.snake.bodyObj);
+
+			this.destroyTarget();
+			this.target = this.createTarget();
+			this.snakegame.add(this.target);
+			return;
+		}
+
 		// gestione target
 		if(this.isEatingTarget()){
 
-			// rimozione del target
-			this.snakegame.remove(this.target);
-			this.target.geometry.dispose();
-			this.target.material.dispose();
+			this.destroyTarget();
 
 			// creazione del nuovo target
 			this.target = this.createTarget();
@@ -91,10 +100,6 @@ SnakeGame.prototype.move = function(){
 			if (this.snake.isInOriginPosition(originPosition)){
 				this.snake.addBodyPart(originPosition);
 			}
-		}
-
-		if(this.snake.isEatingHimself(this.direction)){
-			console.log("cannibale");
 		}
 
 }
@@ -139,4 +144,13 @@ SnakeGame.prototype.createTarget = function(){
 
 	return cube;
 
+}
+
+/*
+	rimozione del target
+*/
+SnakeGame.prototype.destroyTarget = function(){
+	this.snakegame.remove(this.target);
+	this.target.geometry.dispose();
+	this.target.material.dispose();
 }

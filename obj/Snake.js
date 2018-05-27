@@ -47,10 +47,11 @@ Snake.prototype.isEatingHimself = function(direction){
 	var v2x = this.body[0].position.x + ((direction%3 == 0) ? + width : - width);
 	var v2z = this.body[0].position.z + ((direction < 2) ? - width : + width);
 
-	for (var i = 2; i < this.body.length; i++){
+	for (var i = 2; i < this.bodyLength; i++){
 		var body = this.body[i];
-		var cond1 = (v1x <= body.position.x + body.geometry.parameters.width / 2)&&(v1x >= body.position.x - body.geometry.parameters.width / 2)&&(v1z <= body.position.z + body.geometry.parameters.width / 2)&&(v1z >= body.position.z - body.geometry.parameters.width / 2);
-		var cond2 = (v2x <= body.position.x + body.geometry.parameters.width / 2)&&(v2x >= body.position.x - body.geometry.parameters.width / 2)&&(v2z <= body.position.z + body.geometry.parameters.width / 2)&&(v2z >= body.position.z - body.geometry.parameters.width / 2);
+		var w = body.geometry.parameters.width / 2;
+		var cond1 = (v1x <= body.position.x + w)&&(v1x >= body.position.x - w)&&(v1z <= body.position.z + w)&&(v1z >= body.position.z - w);
+		var cond2 = (v2x <= body.position.x + w)&&(v2x >= body.position.x - w)&&(v2z <= body.position.z + w)&&(v2z >= body.position.z - w);
 		if (cond1 || cond2){
 			return true;
 		}
