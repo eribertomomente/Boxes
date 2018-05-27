@@ -118,7 +118,8 @@
 			game = new SnakeGame();
 
 			game.snakegame.scale.set(0.2,0.2,0.2);
-			game.snakegame.position = ARENA_CENTER;
+			game.snakegame.position.set(0,0,0);
+			game.snakegame.position.add(ARENA_CENTER);
 
 			repositioning = 0;
 		}
