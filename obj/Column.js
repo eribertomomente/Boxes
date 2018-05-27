@@ -14,6 +14,8 @@ Column.prototype.createBase = function(){
 
 	for (var i = 9; i > 0; i-=2) {
 		var bloc = new THREE.Mesh( this.geometry, this.material );
+		bloc.castShadow = true;
+		bloc.receiveShadow = true;
 		pivot.add(bloc);
 		bloc.scale.set(i,2,i);
 		bloc.position.set(0,h,0);
@@ -28,6 +30,8 @@ Column.prototype.createUpperBase = function(){
 
 	for (var i = 3; i < 9; i+=2) {
 		var bloc = new THREE.Mesh( this.geometry, this.material );
+		bloc.castShadow = true;
+		bloc.receiveShadow = true;
 		pivot.add(bloc);
 		bloc.scale.set(i,1,i);
 		bloc.position.set(0,h,0);
@@ -42,6 +46,8 @@ Column.prototype.createPeek = function(){
 	var inch_h = 4;
 	for (var i = 9; i > 0; i-=2) {
 		var bloc = new THREE.Mesh( this.geometry, this.material );
+		bloc.castShadow = true;
+		bloc.receiveShadow = true;
 		pivot.add(bloc);
 		bloc.scale.set(i,inch_h,i);
 		bloc.position.set(0,h,0);

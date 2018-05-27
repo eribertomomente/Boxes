@@ -66,6 +66,8 @@ Snake.prototype.addBodyPart = function(pos){
 
 	// creazione del nuovo cubo
 	var newBodyPart = new THREE.Mesh( geometry, material);
+	newBodyPart.castShadow = true;
+	newBodyPart.receiveShadow = true;
 	this.bodyObj.add(newBodyPart);
 	newBodyPart.position.set(pos.x, pos.y, pos.z);
 
@@ -105,6 +107,8 @@ Snake.prototype.createBody = function(bodyLength, xPos, yPos, zPos){
 	var cubes=[];
 	for ( i=0; i<bodyLength; i++ ){
 		cubes[i] = new THREE.Mesh( geometry, material );
+		cubes[i].castShadow = true;
+		cubes[i].receiveShadow = true;
 		this.bodyObj.add(cubes[i]);
 		cubes[i].position.set(xPos,yPos,zPos);
 	}

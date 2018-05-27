@@ -39,6 +39,8 @@ function Arena (x=0, y=0, z=0){
 
 Arena.prototype.createFloor = function(material, dim){
 	var base = new THREE.Mesh( this.geometry, material );
+	base.castShadow = true;
+	base.receiveShadow = true;
 	base.scale.x = dim;
 	base.scale.z = dim;
 

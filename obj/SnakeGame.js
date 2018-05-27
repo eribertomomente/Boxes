@@ -141,6 +141,8 @@ SnakeGame.prototype.createTarget = function(){
 	var cube = new THREE.Mesh( geometry, material);
 
 	cube.position.set(posX, 3, posZ);
+	cube.castShadow = true;
+	cube.receiveShadow = true;
 
 	return cube;
 
