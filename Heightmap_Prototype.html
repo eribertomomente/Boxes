@@ -104,7 +104,7 @@
 
 			}
 			// load img source
-			img.src = "images/machu_picchu4.jpg";
+			img.src = "images/machu_picchu5.jpg";
 
 			// set-up scena
 			game = new SnakeGame();
@@ -171,20 +171,21 @@
 				} else if (d[i]<12){ /****************** GREEN ******************/
 
 					var hsbColor = Math.round(pColor/255*100);
-					hsbColor = (100-hsbColor)-30;
+					var BColor = (100-hsbColor)-30; // hsB
+					var SColor = hsbColor+20; // hSb
 
-					var exist = _check_color_material(green_materials, hsbColor);
+					var exist = _check_color_material(green_materials, BColor);
 
 					// se non esiste lo creo e lo aggiungo all'array di materiali
 					if(exist == -1){
 						exist = green_materials.length;
-						green_materials[exist] = new THREE.MeshBasicMaterial( {color: "hsl(" + 120 + ", " + 65+"%, " + hsbColor + "%)" } );	// materiale di colore uguale al pixel dell'immagine
+						green_materials[exist] = new THREE.MeshBasicMaterial( {color: "hsl(" + 120 + ", " + SColor +"%, " + BColor + "%)" } );	// materiale di colore uguale al pixel dell'immagine
 					}
 					var mat = green_materials[exist];
 
 				} else { /****************** GREY ******************/
 					// aggiusto l'intensita' per rendere un effetto visivo migliore
-					pColor -=10;
+					pColor -=25;
 
 					var exist = _check_color_material(grey_materials, pColor);
 
