@@ -106,7 +106,7 @@
 			renderer.shadowMap.enabled = true;
 			document.body.appendChild( renderer.domElement );
 
-			camera.position.add(CAMERA_BASE);
+			camera.position.add(new THREE.Vector3(-49,29,13));
 
 			stats = new Stats();
 			stats.domElement.style.position = 'absolute';
@@ -162,6 +162,8 @@
 				var data = getHeightData(img,0.1);
 				// disegna tutti i cubi presenti in data usando i colori di img
 				drawCubes(data, img);
+
+				repositioning = 1;
 
 			}
 			// load img source
@@ -242,7 +244,7 @@
 					}
 					var mat = blue_materials[exist];
 
-				} else if (d[i]<12){ /****************** GREEN ******************/
+				} else if (d[i]<10){ /****************** GREEN ******************/
 
 					var hsbColor = Math.round(pColor/255*100);
 					var BColor = (100-hsbColor)-30; // hsB
@@ -257,7 +259,42 @@
 					}
 					var mat = green_materials[exist];
 
-				} else { /****************** GREY ******************/
+				} else if(d[i]<13){
+
+					var r = Math.random();
+
+					if(r > (d[i] - 10)/(13 - 10)){	// colore verde
+
+						var hsbColor = Math.round(pColor/255*100);
+						var BColor = (100-hsbColor)-30; // hsB
+						var SColor = hsbColor+20; // hSb
+
+						var exist = _check_color_material(green_materials, BColor);
+
+						// se non esiste lo creo e lo aggiungo all'array di materiali
+						if(exist == -1){
+							exist = green_materials.length;
+							green_materials[exist] = new THREE.MeshPhongMaterial( {color: "hsl(" + 120 + ", " + SColor +"%, " + BColor + "%)", specular: 0x050505 } );	// materiale di colore uguale al pixel dell'immagine
+						}
+						var mat = green_materials[exist];
+
+					}else{	// colore grigio
+
+						// aggiusto l'intensita' per rendere un effetto visivo migliore
+						pColor -=25;
+
+						var exist = _check_color_material(grey_materials, pColor);
+
+						// se non esiste lo creo e lo aggiungo all'array di materiali
+						if(exist == -1){
+							exist = grey_materials.length;
+							grey_materials[exist] = new THREE.MeshPhongMaterial( {color: "rgb(" + pColor + ", " + pColor + ", " + pColor + ")", specular: 0x050505 } );	// materiale di colore uguale al pixel dell'immagine
+						}
+						var mat = grey_materials[exist];
+
+					}
+
+				}else{ /****************** GREY ******************/
 					// aggiusto l'intensita' per rendere un effetto visivo migliore
 					pColor -=25;
 
