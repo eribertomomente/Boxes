@@ -35,8 +35,8 @@
 
 	</style>
 	<div id="info">
-      <a href="https://github.com/Interactive3dDGraphicsCourse-UNIUD-2018/boxes-momente_borsoi" target="_blank">Interactive 3D Graphics 2018 Project code</a> Authors: Diego Borsoi Momente' Eriberto<br /> Press enter to reposition <br/> Press directional keys to play
-  </div>
+      <a href="https://github.com/Interactive3DGraphicsCourse-UNIUD-2018/boxes-momente_borsoi" target="_blank">Interactive 3D Graphics 2018 Project code</a><br/>Borsoi Diego - Momente' Eriberto
+  	</div>
 		<script src="lib/three.min.js"></script>
 		<script src="lib/stats.min.js"></script>
 		<script src="lib/OrbitControls.js"></script>
@@ -45,6 +45,7 @@
 		<script src="obj/SnakeGame.js"></script>
 		<script src="obj/Snake.js"></script>
 		<script src="obj/Column.js"></script>
+		<script src='lib/dat.gui.min.js'></script>
 
 		<link rel="icon" href="favicon.ico">
 
@@ -64,6 +65,26 @@
 		var repositioning;
 		var angle;
 
+		var helps = {
+				enter: "repositioning",
+				directional_keys: "play snake game"
+			}
+		var gui;
+
+		function clearGui() {
+			if ( gui ) gui.destroy();
+			gui = new dat.GUI();
+			gui.open();
+		}
+
+		function buildGui() {
+			clearGui();
+			help = gui.addFolder('Help controls');
+
+			help.add(helps,'enter');
+			help.add(helps,'directional_keys');
+		}
+
 		//return array with height data from img, taken from: http://danni-three.blogspot.it/2013/09/threejs-heightmaps.html
 		function getHeightData(img,scale) {
 
@@ -75,7 +96,7 @@
 		    var context = canvas.getContext( '2d' );
 
 		    var size = img.width * img.height;
-			console.log(size);
+
 		    var data = new Float32Array( size );
 
 		    context.drawImage(img,0,0);
@@ -128,24 +149,23 @@
 			luce = new THREE.Object3D();
 
 			// lights
-      var lightMesh = new THREE.Mesh( new THREE.SphereGeometry( 4, 20, 20), new THREE.MeshBasicMaterial ({color: 0xffaa00, wireframe:true}));
-      //scene.add(lightMesh);
+			var lightMesh = new THREE.Object3D();
+			var sun1 = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
+			lightMesh.add(sun1);
 			luce.add(lightMesh);
-      lightMesh.position.set( 55, 20, -55);
+			lightMesh.position.set( 55, 20, -55);
+			hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
+			hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+			hemiLight.position.set( 0, 500, 0 );
+			scene.add( hemiLight );
 
-      hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
-      hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-      hemiLight.position.set( 0, 500, 0 );
-      scene.add( hemiLight );
-
-      dirLight = new THREE.DirectionalLight( 0xffaaaa, 1 );
-      dirLight.position.multiplyScalar( 50 );
-      //scene.add( dirLight );
+			dirLight = new THREE.DirectionalLight( 0xffaaaa, 1 );
+			dirLight.position.multiplyScalar( 50 );
 			luce.add(dirLight);
-      dirLight.position.set( 55, 20, -55);
-      dirLight.castShadow = true;
-      dirLight.shadow.mapSize.width = 1024*4;
-      dirLight.shadow.mapSize.height = 1024*4;
+			dirLight.position.set( 55, 20, -55);
+			dirLight.castShadow = true;
+		    dirLight.shadow.mapSize.width = 1024*4;
+		    dirLight.shadow.mapSize.height = 1024*4;
 
 			dirLight.shadow.camera.left = -100;
 			dirLight.shadow.camera.right = 100;
@@ -187,22 +207,18 @@
 
 			switch ( event.keyCode ) {
 				case keys.RIGHT:
-						//console.log("dx")
 						game.direction = (game.direction != 2) ? 0 : 2;	// cambio direzione solo se non sto andando nella direzione opposta
 					break;
 
 				case keys.UP:
-						//console.log("su")
 						game.direction = (game.direction != 3) ? 1 : 3;	// cambio direzione solo se non sto andando nella direzione opposta
 					break;
 
 				case keys.LEFT:
-						//console.log("sx")
 						game.direction = (game.direction != 0) ? 2 : 0;	// cambio direzione solo se non sto andando nella direzione opposta
 					break;
 
 				case keys.BOTTOM:
-						//console.log("giu")
 						game.direction = (game.direction != 1) ? 3 : 1;	// cambio direzione solo se non sto andando nella direzione opposta
 					break;
 
@@ -225,11 +241,6 @@
 
 				// colore del pixel(0 - 255) in considerazione
 				var pColor = Math.round(d[i]*10);
-
-				// TODO
-				if(pColor==250){
-					console.log("b");
-				}
 
 				if (d[i]<6){ /****************** BLUE ******************/
 
@@ -404,6 +415,7 @@
 		}
 
 		Start();
+		buildGui();
 		Update();
 
 		</script>
