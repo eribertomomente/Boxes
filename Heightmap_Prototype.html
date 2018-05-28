@@ -60,7 +60,6 @@
 			0 -> nessun riposizionamento
 			1 -> iniziare riposizionamento
 			2 -> riposizionamento in corso
-			3 -> riposizionamento angolazione camera
 		*/
 		var repositioning;
 		var angle;
@@ -150,8 +149,10 @@
 
 			// lights
 			var lightMesh = new THREE.Object3D();
-			var sun1 = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
-			lightMesh.add(sun1);
+			cubeUpperSx = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
+			cubeUpperDx = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
+			lightMesh.add(cubeUpperSx);
+			lightMesh.add(cubeUpperDx);
 			luce.add(lightMesh);
 			lightMesh.position.set( 55, 20, -55);
 			hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
@@ -159,7 +160,7 @@
 			hemiLight.position.set( 0, 500, 0 );
 			scene.add( hemiLight );
 
-			dirLight = new THREE.DirectionalLight( 0xffaaaa, 1 );
+			dirLight = new THREE.DirectionalLight( 0xffeda0, 1 );
 			dirLight.position.multiplyScalar( 50 );
 			luce.add(dirLight);
 			dirLight.position.set( 55, 20, -55);
@@ -198,6 +199,22 @@
 
 			repositioning = 0;
 			angle = 0;
+		}
+
+		function rotateCube(cube, direction){
+			var speed = 0.01;
+
+			if(direction == 0){
+				cube.rotation.x -= SPEED * 2;
+				cube.rotation.y -= SPEED;
+				cube.rotation.z -= SPEED * 3;
+			}else{
+				cube.rotation.x += SPEED * 2;
+				cube.rotation.y += SPEED;
+				cube.rotation.z += SPEED * 3;
+			}
+
+
 		}
 
 		/*
@@ -345,8 +362,13 @@
 			return -1;
 		}
 
-		// esegue lo spostamento della camera al posizione iniziale
-		function reposCamera(step){
+		// esegue lo spostamento della camera al posizione iniziale e la rotazione verso il centro dell'arena
+		function reposCamera(step, stepCamera){
+
+			if(!((controls.target.x >= ARENA_CENTER.x - TOLL)&&(controls.target.x <= ARENA_CENTER.x + TOLL)&&(controls.target.y >= ARENA_CENTER.y - TOLL)&&(controls.target.y <= ARENA_CENTER.y + TOLL)&&(controls.target.z >= ARENA_CENTER.z - TOLL)&&(controls.target.z <= ARENA_CENTER.z + TOLL))){
+				controls.target.sub(stepCamera);
+			}
+
 
 			if((camera.position.x >= CAMERA_BASE.x - TOLL)&&(camera.position.x <= CAMERA_BASE.x + TOLL)&&(camera.position.y >= CAMERA_BASE.y - TOLL)&&(camera.position.y <= CAMERA_BASE.y + TOLL)&&(camera.position.z >= CAMERA_BASE.z - TOLL)&&(camera.position.z <= CAMERA_BASE.z + TOLL)){
 				repositioning = 0;
@@ -357,18 +379,6 @@
 			}
 
 			camera.position.sub(step);
-
-		}
-
-		// esegue la rotazione della camera verso il centro dell'arena
-		function reposRotCamera(step){
-
-			if((controls.target.x >= ARENA_CENTER.x - TOLL)&&(controls.target.x <= ARENA_CENTER.x + TOLL)&&(controls.target.y >= ARENA_CENTER.y - TOLL)&&(controls.target.y <= ARENA_CENTER.y + TOLL)&&(controls.target.z >= ARENA_CENTER.z - TOLL)&&(controls.target.z <= ARENA_CENTER.z + TOLL)){
-				repositioning = 2;
-				return;
-			}
-
-			controls.target.sub(step);
 
 		}
 
@@ -387,21 +397,20 @@
 			angle += (0.3 * Math.PI / 180);
 			angle %= (360 * Math.PI / 180);
 			moveSun();
+			rotateCube(cubeUpperSx, 0);
+			rotateCube(cubeUpperDx, 1);
 
 			switch(repositioning){
 				case 1:
-						repositioning = 3;
+						repositioning = 2;
 						controls.enableZoom = false;
 						controls.enableRotate = false;
 						controls.enablePan = false;
 						stepPos = camera.position.clone().sub(CAMERA_BASE).divideScalar(60);
-						stepCamera = controls.target.clone().sub(ARENA_CENTER).divideScalar(20);
+						stepCamera = controls.target.clone().sub(ARENA_CENTER).divideScalar(30);
 					break;
 				case 2:
-						reposCamera(stepPos);
-					break;
-				case 3:
-						reposRotCamera(stepCamera);
+						reposCamera(stepPos,stepCamera);
 					break;
 			}
 
