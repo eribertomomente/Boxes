@@ -149,10 +149,10 @@
 
 			// lights
 			var lightMesh = new THREE.Object3D();
-			cubeUpperSx = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
-			cubeUpperDx = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00}));
-			lightMesh.add(cubeUpperSx);
-			lightMesh.add(cubeUpperDx);
+			sun0 = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00, wireframe:true}));
+			sun1 = new THREE.Mesh( new THREE.BoxGeometry(3,3,3), new THREE.MeshBasicMaterial ({color: 0xffaa00, wireframe:true}));
+			lightMesh.add(sun0);
+			lightMesh.add(sun1);
 			luce.add(lightMesh);
 			lightMesh.position.set( 55, 20, -55);
 			hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
@@ -397,8 +397,8 @@
 			angle += (0.3 * Math.PI / 180);
 			angle %= (360 * Math.PI / 180);
 			moveSun();
-			rotateCube(cubeUpperSx, 0);
-			rotateCube(cubeUpperDx, 1);
+			rotateCube(sun0, 0);
+			rotateCube(sun1, 1);
 
 			switch(repositioning){
 				case 1:
