@@ -24,7 +24,7 @@
 - funny fact: dopo un'intensamente lunga sessione di sviluppo otteniamo il seguente risultato: 
 ![Bug 1](images/bug1.png)
 - molto soddisfatti decidiamo di andare a dormire ma in un'ultima occhiata ci accorgiamo di un ciclo for uguale ripetuto tre volte con variabili diverse (codice duplicato). Da bravi sviluppatori consci delle regole di buona programmazione quali ci riteniamo noi decidiamo di spostare il diabolico ciclo for in una funzione esterna e invocarla 3 volte. Questo è stato il risultato:
-![Bug 1](images/bug1.png)
+![Bug 1](images/bug2.png)
 - Correzione immediata del bug diabolico
 	
 
