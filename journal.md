@@ -8,9 +8,7 @@
 - Scritta nella barra del browser
 - Implementazione ombre e altro
 - Implementazione luce soffusa
-- Implementazione colonne 
-- Agiornamento libreria three.min.js
-- FIX Flicker terreno arena
+- Implementazione colonne
 - FIX bug posizionamento arena
 - Aggiunta auto riposizionamento camera
 - sfumature di grigio su terreno verde
@@ -23,6 +21,11 @@
 
 ## May 25, 2018
 - implementate scale di colori
+- funny fact: dopo un'intensamente lunga sessione di sviluppo otteniamo il seguente risultato: 
+![Bug 1](images/bug1.png)
+- molto soddisfatti decidiamo di andare a dormire ma in un'ultima occhiata ci accorgiamo di un ciclo for uguale ripetuto tre volte con variabili diverse (codice duplicato). Da bravi sviluppatori consci delle regole di buona programmazione quali ci riteniamo noi decidiamo di spostare il diabolico ciclo for in una funzione esterna e invocarla 3 volte. Questo è stato il risultato:
+![Bug 1](images/bug1.png)
+- Correzione immediata del bug diabolico
 	
 
 ## May 24, 2018
