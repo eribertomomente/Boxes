@@ -21,7 +21,7 @@
 
 ## May 25, 2018
 - implementate scale di colori
-- funny fact: dopo un'intensamente lunga sessione di sviluppo otteniamo il seguente risultato: 
+- funny fact: dopo una lunga sessione di sviluppo otteniamo il seguente risultato: 
 ![Bug 1](images/bug1.png)
 - molto soddisfatti decidiamo di andare a dormire ma in un'ultima occhiata ci accorgiamo di un ciclo for uguale ripetuto tre volte con variabili diverse (codice duplicato). Da bravi sviluppatori consci delle regole di buona programmazione quali ci riteniamo noi decidiamo di spostare il diabolico ciclo for in una funzione esterna e invocarla 3 volte. Questo è stato il risultato:
 ![Bug 1](images/bug2.png)
@@ -99,33 +99,3 @@
 ## Mar 23, 2018
 - Discussione sull'idea della scena da rappresentare
 - Decisione: Una scena in cui ci sia un'animazione di fuochi di artificio
-## May 20, 2018
-- Aggiunta snake
-- creati materiali hill e rock
-	
-## May 19, 2018
-- Merge branch 'master' of https://github.com/Interactive3DGraphicsCour…  …
-- Aggiunto prototipo arena su terreno
-- sviluppo terreno con heightmap
-
-## Apr 6, 2018
-- Fix bug: snake fuori dal terreno
-	
-## Apr 4, 2018
-- implementazione oggetto-scena tree
-
-## Apr 3, 2018
-- update TODO e segnalazione bug
-- implementazione addBodyPart e config.js
-	
-
-## Apr 1, 2018
-- Implementata eliminazione target e nuova generazione
-- aggiunte texture
-	
-## Mar 31, 2018
-- Fix spostamento fuori dal field
-- Refactoring di Snake.js e Field.js
-
-## Mar 27, 2018
-- Aggiunti snakeGame.js, Field.js e target
