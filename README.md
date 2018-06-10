@@ -1,9 +1,9 @@
 # Descrizione Generale
 Il nostro progetto prevede l'implementazione del classico gioco dello Snake all'interno di un terreno montuoso. L'utente può liberamente spostarsi all'interno della scena con i classici comandi di zoom, rotazione e spostamento. Ha inoltre a disposizione il tasto ```enter``` per posizionarsi automaticamente davanti alla scena e le freccette direzionali della tastiera per muovere lo snake. La scena presenta inoltre un sole che ruota attorno al terreno.
-![Intro](images/intro.png)
+![Intro](images/1.png)
 Abbiamo implementato il gioco dello snake in modo che quando il serpente mangia la "mela", il suo corpo si allunga di un cubo. Quando il serpente mangia se stesso, il gioco automaticamente si resetta (e di conseguenza la lunghezza del corpo dello snake), mentre quando va a sbattere lungo la parete dell'arena devia automaticamente la sua traiettoria seguendone il perimetro in modo che se l'utente vuole spostarsi attraverso la scena può riprendere a giocare senza perdere i progressi fatti.
-![Snake](images/snake.png)
-![Sunrise](images/sunrise.png)
+![Snake](images/2.png)
+![Sunrise](images/3.png)
 
 # Struttura del progetto
 - da ```index.html``` si accede al risultato finale del progetto
