@@ -16,14 +16,15 @@ Abbiamo implementato il gioco dello snake in modo che quando il serpente mangia 
 - ```./StartingCode``` i codici di partenza dati alla consegna del progetto
 
 # Fasi di implementazione
-- Ricerca modello
-- Divisione delle parti del modello con Maya
-- Assemblaggio parti nella scena
-- Ricerca texture diffusive ed esportazione texture adattate ai modelli
-- Inserimento luci, EM e IEM
-- Tween delle gambe e rotazione mitragliatrice
-- Rimplementazione controlli e luci fissate solidali alla camera.
-- Realizzazione struttura del sito e inserimento scena
+- implementazione logiche di gioco dello snake su un'arena custom
+- esportazione dal sito https://terrain.party heightmap di machu-pichu e modifica delle tonalità di grigi con photoshop
+- Generazione terreno a partire dalla heightmap
+- modellazione e inserimento dell'arena di gioco nella scena
+- inserimento dello snake sull'arena
+- Colorazione terreni in base all'altezza
+- Implementazione comandi da tastiera (enter e freccette direzionali)
+- Creazione del sole e implementazione della sua orbita
+- Inserimento ombre sulla scena
 
 # Future features da implementare
  - Nel cartella ```./obj``` si notino i file ```tree.js``` e ```chicken.js```. Essi sono mesh rispettivamente di un albero e di una gallina che avremmo voluto inserire in modo casuale nella scena ma che per mancanza di tempo non siamo riusciti.
